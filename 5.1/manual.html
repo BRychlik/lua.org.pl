@@ -1,0 +1,1422 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Dokumentacja Lua 5.1 - lua.org.pl</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
+	<meta name="keywords" content="lua programowanie lua.org.pl index dokumentacja">
+    <meta name="generator" content="nanoc 3.1.6">
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-21695657-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
+  <body>
+	<div id="page">
+		<div id="header">
+			<div id="logo">
+				<a href="/">
+				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
+				</a>
+			</div>
+			<div class="r">
+			<h1>lua.org.pl</h1>
+			</div>
+		</div>
+		<div id="nav">
+			<ul>
+				<li><a href="/5.1/">Lua 5.1</a></li>
+				<li><a href="/5.2/">Lua 5.2</a></li>
+				<li><a href="/jezyk/">O języku</a></li>
+				<li><a href="/aplikacje/">Aplikacje</a></li>
+				<li><a href="/strona/">Informacje</a></li>
+				<li><a href="http://blog.lua.org.pl">Blog</a></li>
+			</ul>
+		</div>
+		<div id="main">
+		  <h1>1. <a id="1">Wprowadzenie</a></h1>
+<p>
+Lua jest językiem rozszerzającym, zaprojektowanym by zapewnić możliwość normalnego programowania proceduralnego wraz
+z opisem danych. Język ten oferuje również wsparcie dla programowania obiektowo zorientowanego, programowania funkcjonalnego oraz programowania sterowanego danymi (data driven programming). Głównym zastosowaniem Lua jest użycie jako wszechstronnego lekkiego języka skryptowego. Lua został napisany jako biblioteka w czystym C (ANSI C i&nbsp; C++).
+</p>
+<p>
+Będąc językiem rozszerzeń, w Lua nie istnieje pojęcie "programu głównego" (main); program uruchamiany jest wewnątrz programu gospodarza. Program gospodarz może wywoływać funkcje by uruchomić fragmenty programu napisanego w Lua, może zapisywać i odczytywać zmienne Lua oraz może dołączać funkcje napisane w C by mogły być uruchamiane wewnątrz programów Lua. Poprzez użycie funkcji napisanych w C, Lua otrzymuje wsparcie w rozwiązywaniu szerokiej gamy problemów, tworząc specyficzne języki. Dystrybucja Lua zawiera przykładowy program hosta nazwany <code>lua</code>, który korzysta z biblioteki Lua, oferując kompletny i samodzielny interpreter Lua.
+</p>
+<p>
+Lua jest wolnym oprogramowaniem, udostępnianym oczywiście bez żadnych gwarancji, o czym świadczy licencja. Implementacja opisana w tym podręczniku jest dostępna na oficjalnej stronie Lua: www.lua.org.
+</p>
+<p>
+Jak w każdym podręczniku, tak i tu nie opisujemy pewnych niuansów. Dyskusja szczegółów dotyczących projektowania języka Lua została opisana w dokumentach dostępnych na stronie Lua. Szczegółowe wprowadzenie do programowania w Lua zawarte jest w książce Roberto "Programming in Lua (Second Edition)".
+</p>
+<h1>2. <a id="2">Język</a></h1>
+<p>
+Rozdział ten opisuje język, składnię oraz semantykę Lua. Innymi słowy, opisane jest tu, które konstrukcje językowe są właściwe, jak mogą być tworzone, oraz to co każda z tych konstrukcji znaczy.
+</p>
+<p>
+Konstrukcje językowe zostaną wyjaśnione przy pomocy rozszerzonej notacji BNF, w której <em>{a}</em> oznacza zero lub więcej wystąpień <em>a</em>. Natomiast <em>[a]</em> oznacza opcjonalne wystąpienie <em>a</em>. Non-terminals are shown like non-terminal, słowa kluczowe są przedstawione jako <strong>kword</strong>, a inne symbole kończące przedstawione są w postaci <strong>`='</strong>. Kompletna składnia Lua znajduje się w rozdziale 8 na końcu tego podręcznika.
+</p>
+<h2>2.1. <a id="2.1">Konwencje językowe</a></h2>
+<p>
+<em>Nazwy</em> (znane także jako <em>identyfikatory</em>) mogą być dowolnym ciągiem znaków, cyfr i znaków podkreślenia. Nazwy nie mogą rozpoczynać się od cyfry. Zgadza się to definicją nazwy z większości języków programowania. (Definicja znaku zależy od aktualnej lokalizacji: każdy znak będący znakiem alfabetu w określonej lokalizacji może zostać użyty jako identyfikator.) Identyfikatory używane są do nazywania zmiennych oraz, pól tabeli.
+</p>
+<p>
+Podane <em>słowa kluczowe</em> są zarezerwowane i nie mogą być użyte jako nazwy:
+</p>
+<pre>
+	and       break     do        else      elseif
+	end       false     for       function  if
+	in        local     nil       not       or
+	repeat    return    then      true      until     while
+</pre>
+<p>
+Lua jest językiem, w którym wielkość liter ma znaczenie: <code>and</code> jest słowem zarezerwowanym, ale <code>And</code> i <code>AND</code> są dwoma całkowicie właściwymi identyfikatorami. Zgodnie z konwencją, nazwy rozpoczynające się od podkreślenia i składające się ze wielkich liter (takie jak <code>_VERSION</code>) są zarezerwowane jako wewnętrzne zmienne globalne używane przez Lua.
+</p>
+<p>Podane ciągi znaków określają inne oznaczenia:<p>
+<pre>
+	+     -     *     /     %     ^     #
+	==    ~=    <=    >=    <     >     =
+	(     )     {     }     [     ]
+    ;     :     ,     .     ..    ...
+	
+</pre>
+<p>
+<em>Literały</em> mogą być ograniczone przez pary apostrofów lub pary cudzysłowów oraz mogą posiadać sekwencje znane z języka C: <code>'\a'</code> (bell), <code>'\b'</code> (backspace), <code>'\f'</code> (form feed), <code>'\n'</code> (nowa linia), <code>'\r'</code> (powrót na początek linii), <code>'\t'</code> (poziomy tabulator), <code>'\v'</code> (pionowy tabulator), <code>'\\'</code> (backslash), <code>'\"'</code> (cudzysłów), oraz <code>'\''</code> (apostrof).
+Co więcej, backslash ze znakiem nowej linii skutkuje powstaniem nowej linii w ciągu znaków. Znak wewnątrz ciągu znaków może być przedstawiony przez podanie jego kodu, poprzez użycie sekwencji <code>\ddd</code> gdzie <em>ddd</em> jest sekwencją do trzech cyfr dziesiętnych. (Uwaga: jeżeli za sekwencją kodu znaków ma pojawić się cyfra to muszą być to dokładnie 3 cyfry.) Ciągi znaków w Lua mogą zawierać dowolną ośmiobitową wartość, łącznie z zerem zdefiniowanym jako "<code>\0</code>".
+</p>
+<p>
+Literały mogą być także zdefiniowane przez użycie długiego formatowania przy pomocy <em>długich nawiasów</em>. Definiujemy <em>początkowy nawias poziomu n</em> jako początkowy kwadratowy nawias, po którym następuje <em>n</em> znaków równości, za którymi pojawiają się kolejne otwierające nawiasy kwadratowe. Tak więc otwierający nawias kwadratowy na poziomie 0 jest zapisany jako <code>[[</code>, otwierający nawias kwadratowy na poziomie 1 jest zapisany jako <code>[=[</code> itd. <em>Zamykający długi nawias</em> jest zdefiniowany podobnie; dla przykładu, zamykający długi nawias kwadratowy poziomu 4 wygląda następująco <code>]====]</code>. Każdy długi ciąg znaków rozpoczyna się nawiasem dowolnego poziomu i kończy na pierwszym nawiasie zamykającym tego samego poziomu. Literały ujęte w długich nawiasach, mogą rozciągać się na wiele linii, nie są w nich uwzględniane żadne sekwencje specjalne, oraz ignorowane są długie nawiasy innych poziomów. Mogą one zawierać wszystko oprócz nawiasu zamykającego tego samego poziomu.
+</p>
+<p>
+Dla wygody, gdy po początkowym długim nawiasie następuje znak nowej linii, to znak ten nie jest uwzględniany wewnątrz ciągu znaków. Dla przykładu, jeżeli w systemie używane jest kodowanie ANSI (gdzie <code>'a'</code> jest zapisane jako 97, znak nowej linii jako 10 i <code>'1'</code> jako 49) to pięć przykładowych stringów poniżej reprezentuje ten sam ciąg znaków:
+</p>
+<pre>
+	a = 'alo\n123"'
+	a = "alo\n123\""
+	a = '\97lo\10\04923"'
+	a = [[alo      
+	123"]]
+	a = [==[      
+	alo      
+	123"]==] 
+	
+</pre>
+<p><em>Stała liczbowa</em> może zostać zapisana wraz z opcjonalną częścią dziesiętną, oraz dodatkowym wykładnikiem dziesiętnym. Lua akceptuje także stałe liczby szesnastkowe, przez dodanie na ich początku "<code>0x</code>". Przykłady prawidłowych stałych liczbowych:
+</p>
+<pre>
+3   3.0   3.1416   314.16e-2   0.31416E1   0xff   0x56
+</pre>
+<p>
+<em>Komentarz</em> zaczyna się od podwójnego myślnika (--) wszędzie poza ciągiem znaków. Jeżeli tekst zaraz za -- nie jest otwierającym długim nawiasem, taki komentarz jest <em>komentarzem krótkim</em>, który kończy się wraz z końcem linii. W innym przypadku, komentarz jest <em>komentarzem długim</em>, który ciągnie się aż do odpowiadającego długiego nawiasu zamykającego. Długie komentarze są często wykorzystywane przy tymczasowym wyłączaniu fragmentu kodu.
+</p>
+<h2>2.2. <a id="2.2">Wartości i typy</a></h2>
+<p>
+Lua jest <em>językiem dynamicznych typów</em>. Oznacza to że zmienna nie posiada konkretnego typu, jedynie wartość określana jest przez typ. Nie występuje definicja typu w języku. Każda wartość posiada swój własny typ.
+</p>
+<p>
+Wszystkie wartości w Lua są <em>wartościami pierwszej klasy</em>. Oznacza to, że wartości mogą być przechowywane w zmiennych, przekazywane w parametrach do innych funkcji, oraz zwracane jako wynik funkcji.
+</p>
+<p>
+Występuje osiem podstawowych typów w Lua: <em>nil (wartość pusta)</em>,
+<em>boolean</em>,
+<em>number (liczba)</em>,
+<em>string (ciąg znaków)</em>,
+<em>function (funkcja)</em>,
+<em>userdata (dane użytkownika)</em>,
+<em>thread (wątek)</em> i
+<em>table (tabela)</em>
+</p>
+
+<p><em>Nil</em> jest typem dla wartości <strong>nil</strong>, której głównym zadaniem bycie innym od reszty wartości, zazwyczaj reprezentuje brak użytecznej wartości. <em>Boolean</em> jest typem wartości <strong>false</strong> i <strong>true</strong>. Wartości <strong>nil</strong> i <strong>false</strong> powodują iż warunek jest fałszywy, każda inna wartość jest prawdziwa. <em>Number</em> przedstawia liczbę rzeczywistą (liczbę zmiennoprzecinkową podwójnej precyzji). Mimo to jest możliwe skompilowanie interpretera Lua tak aby korzystał z innych reprezentacji liczbowych, takich jak liczby zmiennoprzecinkowe pojedynczej precyzji, liczby całkowite 64-bitowe - więcej w pliku <code>luaconf.h</code>. <em>String</em> opisuje tablicę znaków. Ciągi znaków w Lua mogą zawierać dowolny znak 8-bitowy, łącznie z 0 (więcej w <a href="#2.1">2.1</a>).
+</p>
+<p>
+Funkcje w Lua mogą być wywoływane oraz możliwe są dodatkowe operacje na funkcjach napisanych w Lua oraz w C. (więcej w <a href="#2.5.8">2.5.8</a>)
+</p>
+<p>
+Typ <em>userdata</em> umożliwia umieszczenie danych z programu C by były przechowywane jako zmienna w Lua. Typ ten odpowiada blokowi pamięci i nie posiada żadnych operacji poza operacją przypisania oraz sprawdzenia identyfikatora. Mimo to, poprzez używanie <em>metatablic</em> programista, może zdefiniować odpowiednie operacje dla tych wartości (więcej w <a href="#2.8">2.8</a>). Wartości userdata nie mogą być tworzone i modyfikowane wewnątrz LUA, możliwe jest to jedynie przez API. Gwarantuje to integralność danych przechowywanych przez program hosta.
+</p>
+<p>
+Typ <em>thread</em> reprezentuje niezależną implementację wątków i jest używany do tworzenia funkcji współbieżnych (więcej <a href="#2.11">2.11</a>). Nie należy mylić wątków Lua z wątkami opartymi o system operacyjny. Lua umożliwia tworzenie funkcji współbieżnych na wszystkich systemach, nawet na tych, które nie obsługują wątków.
+</p>
+<p>
+Typ <em>table</em> wykorzystuje funkcjonalność tablic asocjacyjnych, tablic które mogą być indeksowane poprzez dowolną wartość (poza <strong>nil</strong>). Tabele mogą być <em>heterogeniczne</em>, oznacz to że mogą zawierać wartości dowolnego typu (z wyjątkiem <strong>nil</strong>). Tabele są głównym mechanizmem danych w Lua: mogą być wykorzystywane jako zwykłe tablice, tabele symboli, zbiory, rekordy, grafy, drzewa, itd. Do reprezentacji rekordów, Lua wykorzystuje nazwę pola jako indeks. Język udostępnia tą własność przez użycie <code>a.name</code> jako rozwinięcie składni dla <code>a["name"]</code>. Istnieje klika dogodnych sposobów tworzenia tabel w Lua (więcej w <a href="#2.5.7">2.5.7</a>).
+</p>
+<p>
+Podobnie jak indeksy, wartościami tabeli mogą być wartości dowolnego typu (z wyjątkiem <strong>nil</strong>). W szczególności, funkcje będące wartościami pierwszej klasy, to tabela może zawierać funkcje. <em>Metody</em> mogą być także przechowywane w tabelach (więcej w <a href="#2.5.9">2.5.9</a>).
+</p>
+<p>
+Tabele, funkcje, wątki, dane userdata są <em>obiektami</em>, zmienne nie <em>zawierają</em> tych wartości, jedynie <em>referencje</em> do nich. Przypisanie, przekazywanie parametrów, wynik działania funkcji zawsze operują na referencjach do tych wartości, nigdy na kopiach.
+</p>
+<p>
+Funkcja biblioteczna <a href="#pdf-type"><code>type</code></a> zwraca ciąg znaków opisujący typ podanej wartości.
+</p>
+
+<h3>2.2.1. <a id="2.2.1">Koercja</a></h3>
+<p>
+Lua umożliwia automatyczną konwersję między ciągiem znaków i wartościami liczbowymi w czasie wykonania. Dowolna operacja arytmetyczna użyta wobec ciągu znaków próbuje skonwertować ten ciąg na liczbę zgodnie z przyjętymi zasadami konwersji. W przypadku gdy użyta została liczba w przypadku gdy oczekiwany był ciąg znaków, to liczba ta konwertowana jest na ciąg znaków w odpowiednim formacie. By w pełni kontrolować sposób w jaki liczby konwertowane są na ciągi znaków należy korzystać z funkcji <code>format</code> z biblioteki "string" (więcej w <a href="#pdf-string.format">string.format</a>).
+</p>
+<h2>2.3. <a id="2.3">Zmienne</a></h2>
+<p>
+Zmienne to miejsca w których przechowywane są wartości. W LUA występują trzy typy zmiennych: zmienne globalne, zmienne lokalne i pola tabel.
+</p>
+<p>
+Pojedyncza nazwa odnosi się do zmiennej globalnej, lub zmiennej lokalnej (lub też formalnego parametru funkcji, który jest szczególnym przypadkiem zmiennej lokalnej):
+<code>
+	var ::= Name
+</code>
+</p>
+<p>
+Name jest identyfikatorem, jak opisano w <a href="#2.1">2.1</a>.
+</p>
+<p>
+Zakłada się że każda zmienna jest zmienną globalną, chyba że jawnie zostanie zadeklarowana jako lokalna (więcej w <a href="#2.4.7">2.4.7</a>). Zmienne lokalne znajdują się w zawężonym zakresie dostępu: zmienne lokalne są dowolnie dostępne dla funkcji zdefiniowanych w ich zakresie.
+</p>
+<p>Przed pierwszym przypisaniem wartości do zmiennej, jej wartość to <strong>nil</strong></p>
+<p>Nawiasy kwadratowe używane są do indeksowania zawartości tabel:
+<pre>
+	var ::= prefixexp `[´ exp `]´
+</pre>
+</p>
+<p>
+Zmiana dostępu do globalnych zmiennych i pól tabeli wykonywana jest przez metatabele. Dostęp do indeksowanej zmiennej <code>t[i]</code> jest równoznaczny do wywołania <code>gettable_event(t,i)</code>. (Dokładny opis funkcji <code>gettable_event</code> znajduje się w <a href="#2.8">2.8</a>. Funkcja ta nie jest zdefiniowana i wywoływalna w Lua. Używany jej tu tylko w celu wyjaśnień.)
+</p>
+<p>
+Składnia <code>var.Name</code>  jest tylko rozszerzeniem języka dla konstrukcji <code>var["Name"]</code>:
+<pre>
+	var ::= prefixexp `.´ Name
+</pre>
+</p>
+<p>
+Wszystkie zmienne globalne istnieją w Lua jako pola w zwykłych tabelach, nazywanych <em>tabelami środowiska</em> (więcej w <a href="#2.9">2.9</a>). Każda funkcja posiada własne odniesienie do środowiska, więc wszystkie zmienne globalne w tej funkcji będą odwoływać się do tej tabeli. Gdy tworzona jest funkcja, to dziedziczy ona środowisko od funkcji, która ją utworzyła. By pobrać tabelę zmiennych środowiskowych w Lua wywołujemy funkcję <code>getfenv</code>. By zamienić, wywołujemy funkcję <code>setfenv</code>. (You can only manipulate the environment of C functions through the debug library; (see §5.9).) 
+</p>
+<p>
+Uzyskanie dostępu do zmiennej globalnej <code>x</code> jest równoważne do <code>_env.x </code>, z kolei które jest równoważne do 
+<pre>
+	gettable_event(_env, "x")
+</pre>
+Gdzie <code>_env</code> jest środowiskiem wywołanej funkcji. (Dokładny opis funkcji <code>gettable_event</code> znajduje się w <a href="#2.8">2.8</a>. Funkcja ta nie jest zdefiniowana i wywoływalna w Lua. Używany jej tu tylko w celu wyjaśnień.)
+</p>
+<h2>2.4. <a id="2.4">Instrukcje</a></h2>
+<p>
+Lua wykorzystuje prawie standardowy zestaw instrukcji, podobny do tych z Pascala lub C. Wymienić tu można operacje przypisania, instrukcje warunkowe, wywołania funkcji i deklaracje zmiennych.
+</p>
+<h3>2.4.1. <a id="2.4.1">Fragmenty</a></h3>
+<p>
+Jednostka wykonania w Lua nazywana jest <em>fragmentem</em>. Fragment jest po prostu sekwencją instrukcji, które są wykonywane jedna po drugiej. Każda instrukcja może być zakończona średnikiem.
+</p>
+<pre>
+	chunk ::= {stat [`;´]}
+</pre>
+<p>Nie występują puste instrukcje tak więc <code>';;'</code> nie jest prawidłową konstrukcją.</p>
+<p>
+Lua obsługuje fragmenty jako ciało funkcji anonimowej ze zmienną liczbą parametrów (więcej w <a href="#2.5.9">2.5.9</a>). Dlatego fragmenty mogą definiować zmienne lokalne, pobierać parametry i zwracać wartości.
+</p>
+<p>
+Fragment może być przechowywany w pliku lub jako ciąg znaków wewnątrz programu hosta. By wykonać fragment kodu, Lua najpierw kompiluje ten fragment do instrukcji maszyny wirtualnej, a potem wykonuje skompilowany kod przy pomocy interpretera wirtualnej maszyny.
+</p>
+<p>
+Fragmenty mogą być również kompilowane do postaci binarnej; więcej szczegółów na ten temat znajduje się wraz z opisem programu <code>luac</code>. Programy źródłowe i postaci skompilowanej mogą być stosowane zamiennie, Lua automatycznie sprawdza typ wykonywanego pliku.
+</p>
+<h3>2.4.2. <a id="2.4.2">Bloki</a></h3>
+<p>
+Blok jest listą instrukcji, w rzeczywistości blok jest tym samym czym fragment:
+</p>
+<pre>
+	block ::= chunk
+</pre>
+<p>
+Blok może być jawnie określony, by stać się pojedynczą instrukcją:
+</p>
+<pre>
+	stat ::= do block end
+</pre>
+<p>
+Jawne bloki umożliwiają określenie zakresu zmiennych. Bloki używane są by dodać instrukcję <strong>return</strong> lub <strong>break</strong> w środku innego bloku (więcej <a href="#2.4.4">2.4.4</a>).
+</p>
+<h3>2.4.3. <a id="2.4.3">Przypisania</a></h3>
+<p>
+Lua umożliwia wielokrotne przypisania. W związku z tym składnia przypisania definiuje listę zmiennych z lewej strony i listę wyrażeń z prawej strony. Elementy w obydwu listach są oddzielone przecinkami:
+</p>
+<pre>
+	stat ::= varlist `=´ explist
+	varlist ::= var {`,´ var}
+	explist ::= exp {`,´ exp}
+</pre>
+<p>
+Wyrażenia dokładnie opisane są w <a href="#2.5">2.5</a>
+</p>
+<p>
+Przed przypisaniem, lista wartości jest <em>dostosowywana</em> do długości listy zmiennych. Jeżeli jest więcej wartości niż potrzeba, to dodatkowe wartości są odrzucane. Natomiast jeżeli wartości jest mniej niż potrzeba, to lista ta jest rozszerzana przez dodanie wartości <strong>nil</strong>. Jeżeli lista wyrażeń kończy się wywołaniem funkcji, to wszystkie wartości zwrócone przez to wywołanie umieszczone są na liście wartości przed dostosowywaniem do długości (except when the call is enclosed in parentheses; see §2.5). 
+</p>
+<p>
+Operacja przypisania najpierw oblicza wszystkie wyrażenia i dopiero wtedy wykonywane jest przypisanie. Tak więc kod
+</p>
+<pre>
+	i = 3
+    i, a[i] = i+1, 20
+</pre>
+<p>
+ustawia <code>a[3]</code> na 20, bez wpływu na <code>a[4]</code> ponieważ <code>i</code> w <code>a[i]</code> jest przeliczane (do 3) przed przypisaniem 4. Podobnie kod:
+</p>
+<pre>
+    x, y = y, x
+</pre>
+<p>
+zamienia wartości między zmiennymi <code>x</code> i <code>y</code>, oraz
+</p>
+<pre>
+	x, y, z = y, z, x
+</pre>
+<p>
+cyklicznie zmienia wartości zmiennych <code>x, y</code> i <code>z</code>.
+</p>
+<p>
+Znaczenie przypisania zmiennych globalnych i pól tabeli może zostać zmienione przez metatabele. 
+</p>
+<h3>2.4.4. <a id="2.4.4">Instrukcje warunkowe</a></h3>
+<p>
+Instrukcje kontrolne takie jak: <strong>if</strong>, <strong>while</strong> i <strong>repeat</strong> posiadają typowe znaczenie i znaną składnię:
+</p>
+<pre>
+	stat ::= while exp do block end
+	stat ::= repeat block until exp
+	stat ::= if exp then block {elseif exp then block} [else block] end
+</pre>
+<p>
+Lua posiada instrukcję <strong>for</strong> w dwóch wariantach (<a href="#2.4.5">2.4.5</a>).
+</p>
+<p>
+Wyrażenie warunkowe instrukcji warunkowej może zwrócić wartość. <strong>False</strong> i <strong>nil</strong> są rozpoznawane jako wartość fałszu. Wszystkie wartości inne od <strong>nil</strong> i <strong>false</strong> oznaczają prawdę (w szczególności, liczba 0 i pusty ciąg znaków oznaczają prawdę).
+</p>
+<p>
+W pętli <strong>repeat-until</strong>, wewnętrzny blok kodu nie kończy się na słowie kluczowym <strong>until</strong>, ale tylko po wykonaniu warunku tej pętli. Tak więc, wyrażenie warunkowe może odwoływać się do zmiennych lokalnych zadeklarowanych wewnątrz bloku kodu pętli.
+</p>
+<p>
+Instrukcja <strong>return</strong> używana jest do zwracania wartości z funkcji lub fragmentu kodu (który jest właśnie funkcją). Funkcje i fragmenty kodu mogą zwracać więcej jak jedną wartość, dlatego składnia dla <strong>return</strong> wygląda następująco:
+</p>
+<pre>
+	stat ::= return [explist]
+</pre>
+<p>
+Instrukcja <strong>break</strong> wykorzystywana jest do przerywania wykonania pętli: <strong>while</strong>, <strong>repeat</strong> lub <strong>for</strong>. Przerwanie wykonania pętli skutkuje przejściem do następnej instrukcji za pętlą.
+</p>
+<pre>
+	stat ::= break
+</pre>
+<p>
+Instrukcja <strong>break</strong> przerywa działanie najbardziej wewnętrznej pętli, w której zostało użyte.
+</p>
+<p>
+Instrukcje <strong>break</strong> i <strong>return</strong> mogą być użyte jako <em>ostatnie</em> instrukcje w danym bloku. Jeżeli jest to konieczne by umieścić instrukcję <strong>return</strong> lub <strong>break</strong> w środku bloku, wtedy należy użyć jawnego wewnętrznego bloku, stosując następujące idiomy: <code>do return end</code>i <code>do break end</code> Takie rozwiązanie powoduje, że <strong>return</strong> lub <strong>break</strong> jest ostatnią instrukcją w bloku.
+</p>
+<h3>2.4.5. <a id="2.4.5">Pętla for</a></h3>
+<p>
+Instrukcja <strong>for</strong> posiada dwie formy: numeryczną i generyczną.
+</p>
+<p>
+Numeryczna pętla <strong>for</strong> powtarza blok kodu, podczas gdy zmienna kontrolna podlega arytmetycznej zmianie. Składnia pętli wygląda następująco:</p>
+<pre>
+	stat ::= for Name `=´ exp `,´ exp [`,´ exp] do block end
+</pre>
+<p>
+<em>block</em> jest powtarzany dla <em>name</em> zaczynając od wartości pierwszego wyrażenia <em>exp</em>, aż przejdzie do drugiego wyrażenia <em>exp</em> krok po kroku do trzeciego wyrażenia <em>exp</em>. Bardziej szczegółowo, instrukcja <strong>for</strong> taka jak:
+</p>
+<pre>
+	for v = e1, e2, e3 do block end
+</pre>
+<p>
+jest równoważna do poniższego kodu:
+</p>
+<pre>
+	do
+       local var, limit, step = tonumber(e1), tonumber(e2), tonumber(e3)
+       if not (var and limit and step) then error() end
+       while (step > 0 and var &lt;= limit) or (step &lt;= 0 and var >= limit) do
+         local v = var
+         block
+         var = var + step
+       end
+     end
+</pre>
+<p>
+Uwagi do powyższego kodu:
+</p>
+<ul>
+	<li>Wszystkie trzy wyrażenia kontrolne są wyprowadzane tylko raz, przed startem pętli. Wynikami musza być liczby.</li>
+	<li><code>var, limit</code> i <code>step</code> są zmiennymi niewidzialnymi. Ich nazwy pokazane są w celach demonstracyjnych.</li>
+	<li>Jeżeli brakuje trzeciego wyrażenia (kroku), to używany jest krok o wartości 1</li>
+	<li>Można użyć <strong>break</strong> by opuścić pętle <strong>for</strong>
+	<li>Zmienna pętli <code>v</code> jest zmienną lokalną pętli; nie można użyć jej wartości po zakończeniu lub przerwaniu pętli. Jeżeli istnieje potrzeba użycia tej wartości, należy przypisać ją do innej zmiennej, przed przerwaniem lub opuszczeniem pętli.</li>
+</ul>
+<p>
+Generyczna wersja pętli <strong>for</strong> korzysta z funkcji zwanej <em>iteratorami</em>. Przy każdej iteracji funkcja jest wywoływana i zwraca nową wartość. Wykonanie pętli zatrzymuje się gdy wartość ta jest <strong>nil</strong>. Pętla generyczna posiada następującą składnię:
+</p>
+<pre>
+	stat ::= for namelist in explist do block end
+	namelist ::= Name {`,´ Name}
+</pre>
+<p>
+Instrukcja <strong>for</strong> taka jak:
+</p>
+<pre>
+	 for var_1, ···, var_n in explist do block end
+</pre>
+<p>
+	Jest równoważna do:
+</p>
+<pre>
+	do
+       local f, s, var = explist
+       while true do
+         local var_1, ···, var_n = f(s, var)
+         var = var_1
+         if var == nil then break end
+         block
+       end
+     end
+</pre>
+<p>
+Uwagi:
+</p>
+<ul>
+	<li><code>explist</code> jest wyznaczane tylko raz. Kolejne zwracane wartości to funkcja <em>iteratora</em>,<em>stan</em> oraz wartość startowa dla <em>zmiennej iteratora</em>.</li>
+	<li><code>f, s</code> i <code>var</code> są niewidocznymi zmiennymi. Są tu jedynie w celu objaśnień.</li>
+	<li>Aby opuścić pętle <strong>for</strong> można użyć instrukcji <strong>break</strong>.</li>
+	<li>Zmienna pętli <code>var_i</code> jest zmienną lokalną; nie jest możliwe użycie jej wartości po zakończeniu działania pętli <strong>for</strong>. Aby mieć możliwość wykorzystania wartości tej zmiennej, należy przypisać jej wartość do innej zmiennej przed przerwaniem lub zakończeniem działania pętli.</li>
+</ul>
+<h3>2.4.6. <a id="2.4.6">Wywołania funkcji jako instrukcje</a></h3>
+<p>
+Funkcje mogą być uruchamiane jako instrukcje, zapewniając możliwość występowania "efektów ubocznych":
+</p>
+<pre>
+	stat ::= functioncall
+</pre>
+<p>W takim przypadku, wszystkie zwrócone wartości są odrzucane. Wywyołania funkcji są wyjaśnione w <a href="#2.5.8">2.5.8</a>.
+<h3>2.4.7. <a id="2.4.7">Deklaracje lokalne</a></h3>
+<p>
+Zmienne lokalne mogą być zadeklarowane w dowolnym miejscu w bloku. Deklaracja może zawierać wstępnie ustawioną wartość:
+</p>
+<pre>
+	stat ::= local namelist [`=´ explist]
+</pre>
+<p>
+Jeżeli jest obecne przypisanie, to zastosowanie ma zasada wielokrotnego przypisania (<a href="#2.4.3">2.4.3</a>). W przeciwnym wypadku wszystkie zmienne są inicjalizowane wartością <strong>nil</strong>.
+</p>
+<p>
+Fragment jest także blokiem (<a href="2.4.1">2.4.1</a>), więc zmienne lokalne mogą być zadeklarowane we fragmencie na zewnątrz jawnego bloku. Zakres takiej zmiennej sięga aż końca fragmentu.
+</p>
+<p>
+Zasady widzialności zmiennych lokalnych wyjaśnione są w <a href="#2.6">2.6</a>
+</p>
+<h2>2.5. <a id="2.5">Wyrażenia</a></h2>
+<p>
+Proste wyrażenia wyglądają następująco:
+</p>
+<pre>
+	exp ::= prefixexp
+	exp ::= nil | false | true
+	exp ::= Number
+	exp ::= String
+	exp ::= function
+	exp ::= tableconstructor
+	exp ::= `...´
+	exp ::= exp binop exp
+	exp ::= unop exp
+	prefixexp ::= var | functioncall | `(´ exp `)´
+</pre>
+<p>
+Liczby i literały są opisane w <a href="#2.1">2.1</a>; zmienne są opisane w <a href="#2.3">2.3</a>; definicje funkcji wyjaśnione w <a href="#2.5.9">2.5.9</a>; wywołania funkcji są opisane w <a href="#2.5.8">2.5.8</a>; konstruktory tabel zostały opisane w <a href="#2.5.7">2.5.7</a>. Lista parametrów o zmiennej długości, oznaczana jako trzy kropki ('<code>...</code>'), może być użyta jedynie wewnątrz funkcji z taką listą parametrów, są one opisane w <a href="#2.5.9">2.5.9</a>.
+</p>
+<p>
+Operatory binarne zawierają operatory arytmetyczne (<a href="#2.5.1">2.5.1</a>), operatory relacji (<a href="#2.5.2">2.5.2</a>), operatory logiczne (<a href="#2.5.3">2.5.3</a>) i operator konkatenacji (<a href="#2.5.4">2.5.4</a>). W zbiorze operatorów unarnych zawiera się operator wartości ujemnej (<a href="#2.5.1">2.5.1</a>), operator negacji - <strong>not</strong> (<a href="#2.5.3">2.5.3</a>) i operator <em>length</em> (<a href="#2.5.5">2.5.5</a>).
+</p>
+<p>
+Wywołania funkcji oraz wyrażenia listy parametrów o zmiennej długości (vararg), mogą zwracać więcej niż jedną wartość. Jeżeli wyrażenie użyte jest jak instrukcja (możliwe jedynie w przypadku wywołań funkcji (<a href="#2.4.6">2.4.6</a>)), to zwracana lista wartości jest skorygowana do zerowej ilości elementów, tym samym odrzucając wszystkie zwrócone wartości. Jeżeli wyrażenie jest użyte jako ostatni (lub jako jedyny) element listy wyrażeń, to nie jest wykonywane żadne korygowanie (dopóki wywołanie jest zamknięte w nawiasach). W każdym innym przypadku, Lua skoryguje listę wyników do jednego elementu, odrzucając wszystkie wartości z wyjątkiem pierwszej.
+</p>
+<p>Kilka przykładów:</p>
+<pre>
+     f()                -- skorygowane do zero wyników
+     g(f(), x)          -- f() jest skorygowane do jednego wyniku
+     g(x, f())          -- g pobiera x oraz wszystkie wyniki z f()
+     a,b,c = f(), x     -- f() jest skorygowane do jednego wyniku (c pobiera nil)
+     a,b = ...          -- a pobiera pierwszy parametr z listy (vararg), b pobiera
+                        -- drugi (obydwie zmienne a i b mogą mieć przypisany nil jeżeli
+                        -- nie ma odpowiadającego im parametru na liście)
+     
+     a,b,c = x, f()     -- wynik f() jest skorygowany do dwóch elementów
+     a,b,c = f()        -- wynik f() jest skorygowany do trzech elementów
+     return f()         -- zwraca wszystkie wartość f()
+     return ...         -- zwraca wszystkie wartości listy parametrów o zmiennej długości
+     return x,y,f()     -- zwraca x, y, i wszystkie wyniki z f()
+     {f()}              -- tworzy listę z wszystkimi wynikiami z f()
+     {...}              -- tworzy listę z wszystkimi wartościami listy parametrów (vararg)
+     {f(), nil}         -- f() jest skorygowany do jednego wyniku
+</pre>
+<p>
+Jakiekolwiek wyrażenie zamknięte w nawiasach zawsze zwraca tylko jedną wartość, Także <code>(f(x,y,z))</code> zwraca zawsze jedną wartość, nawet gdy <code>f</code> zwraca kilka wartości. (Wartość <code>(f(x,y,z))</code> jest zawsze pierwszą wartością zwróconą przez <code>f</code> lub <strong>nil</strong> jeżeli <code>f</code> nie zwróci żadnej wartości.)
+</p>
+<h3>2.5.1. <a id="2.5.1">Operatory arytmetyczne</a></h3>
+<p>
+Lua obsługuje typowe operatory arytmetyczne: binarne <code>+</code> (dodawanie), <code>-</code> (odejmowanie), <code>*</code> (mnożenie), <code>/</code> (dzielenie), <code>%</code> (modulo) i <code>^</code> (potęgowanie); oraz unarne <code>-</code> (negacja). Jeżeli operandy są numerami, lub ciągami znaków, które mogą być przekonwertowane na numery (<a href="#2.2.1">2.2.1</a>), wtedy wszystkie operacje mają typowe znaczenie. Potęgowanie działa dla dowolnego wykładnika. Dla przykładu, <code>x^(-0.5)</code> oblicza pierwiastek kwadratowy <code>x</code>. Modulo jest zdefiniowane jako:
+</p>
+<pre>
+	a % b == a - math.floor(a/b)*b
+</pre>
+<p>
+Jest to reszta z dzielenia, która powstaje z zaokrąglenia ilorazu do minus nieskończoności.
+</p>
+<h3>2.5.2. <a id="2.5.2">Operatory relacji</a></h3>
+<p>
+Operatorami relacji w Lua są:
+</p>
+<pre>
+	==    ~=    <     >     <=    >=
+</pre>
+<p>
+Operatory te zawsze zwracają <strong>false</strong> lub <strong>true</strong>.
+</p>
+<p>
+Równość (<code>==</code>) najpierw porównuje typ operandów. Jeżeli typy różnią się, to wynik zwrócony wynik jest <strong>false</strong>. W przeciwnym wypadku, wartości operandów są porównywane. Numery i ciągi znaków są porównywane w typowy sposób. Obiekty (tabele, userdata, wątki i funkcje) są porównywane przez <em>referencje</em>: dwa obiekty są równe tylko wtedy gdy są <em> tym samym</em> obiektem. Za każdym razem przy tworzeniu nowego obiektu (tabeli, userdata, wątku lub funkcji), obiekt ten różni się od każdego poprzednio utworzonego obiektu.
+</p>
+<p>
+Istnieje możliwość zmiany sposobu w jaki Lua porównuje tabele i dane userdata poprzez użycie metametody "eq" (<a href="#2.8">2.8</a>).
+</p>
+<p>
+Reguły konwersji z <a href="#2.2.1">2.2.1</a> <em>nie mają</em> zastosowania przy sprawdzaniu równości. Tak więc, <code>"0"==0</code> zwraca <strong>false</strong> i <code>t[0]</code> oraz <code>t["0"]</code> oznaczają różne pola w tabeli.
+</p>
+<p>
+Operator <code>~=</code> jest negacją równości (<code>==</code>).
+</p>
+<p>
+Kolejność operatorów działa w następujący sposób. Jeżeli obydwa argumenty są numerami, to są one porównywane jak numery. W przeciwnym przypadku, jeżeli porównywane argumenty są ciągami znaków, to ich wartości porównywane są według obowiązującej lokalizacji. Ostatecznie Lua próbuje wywołać metametody "lt" i "le" (<a href="#2.8">2.8</a>). Porównanie <code>a &gt; b</code> jest przetwarzane na <code>b &lt; a</code> i <code>a &gt;= b</code> jest przetwarzane na <code>b &lt;= a</code>.
+</p>
+<h3>2.5.3. <a id="2.5.3">Operatory logiczne</a></h3>
+<p>
+Operatorami logicznymi w Lua są <strong>and</strong>, <strong>or</strong> i <strong>not</strong>. Operator koniunkcji <strong>and</strong> zwraca swój pierwszy argument jeżeli jego wartość jest <strong>false</strong> lub <strong>nil</strong>; w przeciwnym wypadku, <strong>and</strong> zwraca drugi argument. Operator alternatywy <strong>or</strong> zwraca swój pierwszy argument jeżeli jego wartość jest różna od <strong>nil</strong> i <strong>false</strong>; w przeciwnym wypadku zwraca wartość drugiego argumentu. Obydwa operatory <strong>and</strong> i <strong>or</strong> używają skróconego wyznaczania wartości, to znaczy że drugi argument operatora wyznaczany jest tylko wtedy gdy jest to konieczne. Oto kilka przykładów:
+</p>
+<pre>
+	10 or 20            --> 10
+	10 or error()       --> 10
+	nil or "a"          --> "a"
+	nil and 10          --> nil
+	false and error()   --> false
+	false and nil       --> false
+	false or nil        --> nil
+	10 and 20           --> 20
+</pre>
+<p>W tym podręczniku, <code>--&gt;</code> oznacza wynik działania wyrażenia.
+<h3>2.5.4. <a id="2.5.4">Konkatenacja</a></h3>
+<p>
+Łączenie ciągów znaków w Lua oznaczone jest przez dwie kropki, ('<code>..</code>'). Jeżeli obydwa operandy są ciągami znaków lub numerami, to obydwa są konwertowane na ciągi znaków z zachowaniem zasad opisnych w <a href="#2.2.1">2.2.1</a>. Jeżeli nie jest to możliwe, używana jest metametoda "concat" (więcej <a href="#2.8">2.8</a>).
+</p>
+<h3>2.5.5. <a id="2.5.5">Operator Length</a></h3>
+<p>
+Operator length, występuje pod postacią operatora <code>#</code>. Operator length, zastosowany względem ciągu znaków jest liczbą bajtów (jest to typowe znaczenie operatora długości dla ciągu znaków, gdy każdemu znakowi odpowiada jeden bajt).
+</p>
+<p>
+Długość tabeli <code>t</code> jest zdefiniowana jako dowolny indeks o wartości całkowitej <code>n</code>, takiej że <code>t[n]</code> nie jest <strong>nil</strong> i <code>t[n+1]</code> jest <strong>nil</strong>; ponadto, jeżeli <code>t[1]</code> jest <strong>nil</strong>, <code>n</code> może być zerem. Dla zwykłej tablicy, bez wartości pustych od 1 do podanego <code>n</code>, to długość wynosi dokładnie <code>n</code>, czyli indeks ostatniej wartości. Jeżeli tablica posiada "dziury" (czyli wartości puste <strong>nil</strong> pomiędzy normalnymi wartościami), to <code>#t</code> może wskazywać wtedy na indeks tabeli bezpośrednio poprzedzający wartość <strong>nil</strong> (czyli może zinterpretować wartość <strong>nil</strong> jako koniec tablicy).
+</p>
+<h3>2.5.6. <a id="2.5.6">Kolejność operatorów</a></h3>
+<p>Kolejność operatorów w Lua przedstawia poniższa tabela, od priorytetu najniższego do najwyższego:
+</p>
+<pre>
+     or
+     and
+     <     >     <=    >=    ~=    ==
+     ..
+     +     -
+     *     /     %
+     not   #     - (unary)
+     ^ 
+</pre>
+<p>
+Zwyczajowo, nawiasy mogą być użyte do zmiany kolejności priorytetów w wyrażeniu. Operator konkatenacji ("<code>..</code>") i potęgowanie ("<code>^</code>") są łączne prawostronnie. Pozostałe operatory binarne są łączne lewostronnie.
+</p>
+<h3>2.5.7. <a id="2.5.7">Konstruktory tabel</a></h3>
+<p>
+Konstruktory tabel są to wyrażenia tworzące tabele. Za każdym razem gdy konstruktor jest wykonywany nowa tabela jest tworzona. Konstruktor może być użyty do utworzenia pustej tabeli lub utworzenia tabeli wraz z inicjalizacją pól. Składnia konstruktora wygląda następująco:
+</p>
+<pre>
+	tableconstructor ::= `{´ [fieldlist] `}´
+	fieldlist ::= field {fieldsep field} [fieldsep]
+	field ::= `[´ exp `]´ `=´ exp | Name `=´ exp | exp
+	fieldsep ::= `,´ | `;´
+</pre>
+<p>
+Każdy dostęp do pola w postaci <code>[exp1] = exp2</code> dodaje do nowej tabeli element z kluczem <code>exp1</code> i wartością <code>exp2</code>. Pole w postaci <code>name = exp</code> jest równoważne do <code>["name"] = exp</code>. Pola w postaci <code>exp</code> są równoważne do <code>[i] = exp</code>, gdzie <code>i</code> są kolejnymi wartościami całkowitoliczbowymi, zaczynając od 1. Pola w innych formatach nie wpływa na to liczenie. Dla przykładu:
+</p>
+<pre>
+	a = { [f(1)] = g; "x", "y"; x = 1, f(x), [30] = 23; 45 }
+</pre>
+<p>
+jest równoważne do:
+</p>
+<pre>
+     do
+       local t = {}
+       t[f(1)] = g
+       t[1] = "x"         -- 1st exp
+       t[2] = "y"         -- 2nd exp
+       t.x = 1            -- t["x"] = 1
+       t[3] = f(x)        -- 3rd exp
+       t[30] = 23
+       t[4] = 45          -- 4th exp
+       a = t
+     end
+</pre>
+<p>
+Jeżeli ostatnie pole jest w postaci <code>exp</code> i wyrażenie jest wywołaniem funkcji lub wyrażeniem listy o zmiennej długości, to wszystkie wartości zwrócone przez to wyrażenie dodawane są po kolei do listy (<a href="#2.5.8">2.5.8</a>). By uniknąć takiego zachowania, należy wywołanie funkcji lub wyrażenie listy o zmiennej długości zamknąć w nawiasach (<a href="#2.5">2.5</a>).
+</p>
+<p>
+Lista pól może posiadać opcjonalny końcowy separator, jako wygodne rozwiązanie dla kodu generowanego automatycznie.
+</p>
+<h3>2.5.8. <a id="2.5.8">Wywołania funkcji</a></h3>
+<p>
+Wywołanie funkcji w Lua posiada następującą składnię:
+</p>
+<pre>
+	functioncall ::= prefixexp args
+	
+</pre>
+<p>W wywołaniu funkcji, w pierwszej kolejności przetwarzane są prefixexp i args. Jeżeli wartość prefixexp jest typu <em>funkcji</em>, to funkcja ta jest wywoływana z podanymi argumentami. W przeciwnym wypadku prefixexp wywołuje metametodę, podając jako pierwszy parametr wartość prefixexp, a następnie właściwe argumenty funkcji (<a href="#2.8">2.8</a>).
+</p>
+<p>
+Postać:
+</p>
+<pre>
+	functioncall ::= prefixexp `:´ Name args
+
+</pre>
+<p>
+może być użyta do wywoływania "metod". Wywołanie <code>v:name(args)</code> jest lukrem językowym dla <code>v.name(v,args)</code>, z wyjątkiem że <code>v</code> jest wyznaczane tylko raz.
+</p>
+<p>
+Argumenty w następującej składni:
+</p>
+<pre>
+	args ::= `(´ [explist] `)´
+	args ::= tableconstructor
+	args ::= String
+	
+</pre>
+<p>
+Wszystkie wyrażenia argumentów są wyznaczane przed wywołaniem funkcji. Wyowałanie w postaci <code>f{fields}</code> jest lukrem językowym dla <code>f({pola})</code> oznacza to że lista argumentów jest nową pojedynczą tabelą. Natomiast wywołanie w postaci <code>f'ciąg_znaków'</code> (lub <code>f"ciąg_znaków"</code> lub f[[ciąg znaków]]) jest lukrem językowym dla <code>f'ciąg znaków'</code>, oznacza to że argument jest ciągiem znaków.
+</p>
+<p>
+Jako wyjątek dla składni wolnego formatu w Lua, nie można umieścić znaku końca linii przed '<code>(</code>' w wywołaniu funkcji. To ograniczenie uniemożliwia powstawaniu niejednoznaczności w języku. W przypadku
+</p>
+<pre>
+	 a = f
+     (g).x(a)
+</pre>
+<p>
+Lua może potraktować jako pojedynczą instrukcję, <code>a = f(g).x(a)</code>. Więc w przypadku konieczności napisania dwóch instrukcji, należy dodać średnik między nimi. Jeżeli jednak wymagane jest wywołanie funkcji <code>f</code>, należy usunąć znak nowej linii przed <code>(g)</code>.
+</p>
+<p>
+Wywołanie w postaci <code>return</code> <em>wywołanie_funkcji</em> nazywane jest <em title="tail call">rekurencją ogonową</em>. Lua implementuje <em>właściwe wywołania ogonowe</em> (<em>właściwą rekurencję prawostronną</em>): w rekurencji ogonowej, wywoływana funkcja używa stos funkcji wywołującej. Ponadto nie ma limitu dla zagnieżdżonych wywołań ogonowych, które program może wykonać. Jednak, rekursja prawostronna usuwa wszelkie informacje dla debuggera funkcji wywołującej. Należy zaznaczyć, że wywołanie ogonowe występuje tylko w przypadku określonej składni, gdzie <strong>return</strong> ma jedno wywołanie funkcji jako argument; taka składnia powoduje że wywoływana funkcja zwraca dokładnie zwróconą wartość wywołanej funkcji. Tak więc żadne z przykładowych wywołań poniżej nie jest wywołaniem ogonowym:
+</p>
+<pre>
+	return (f(x))        -- wyniki skorygowane do 1
+	return 2 * f(x)
+	return x, f(x)       -- dodatkowe wyniki
+	f(x); return         -- wyniki usunięte
+	return x or f(x)     -- wynik skorygowany do 1
+</pre>
+<h3>2.5.9. <a id="2.5.9">Definicje funkcji</a></h3>
+<p>
+Składnia definicji funkcji przedstawia się następująco:
+</p>
+<pre>
+	function ::= function funcbody
+	funcbody ::= `(´ [parlist] `)´ block end
+</pre>
+<p>
+Podany lukier składniowy upraszcza definicję funkcji:
+</p>
+<pre>
+	stat ::= function funcname funcbody
+	stat ::= local function Name funcbody
+	funcname ::= Name {`.´ Name} [`:´ Name]
+</pre>
+<p>
+Instrukcja:
+</p>
+<pre>
+	function f () body end
+</pre>
+<p>
+jest przekształcana na:
+</p>
+<pre>
+	f = function () body end
+</pre>
+<p>
+Instrukcja:
+</p>
+<pre>
+	function t.a.b.c.f () body end
+</pre>
+<p>
+jest przekształcana na:
+</p>
+<pre>
+	t.a.b.c.f = function () body end
+</pre>
+<p>
+Instrukcja: 
+</p>
+<pre>
+	local function f () body end
+</pre>
+<p>
+jest przekształcana na:
+</p>
+<pre>
+	local f; f = function () body end
+</pre>
+<p>
+a <em>nie</em> na: 
+</p>
+<pre>
+	local f = function () body end
+</pre>
+<p>
+(Robi to różnicę tylko wtedy gdy ciało funkcji zawiera odwołanie do <code>f</code>.)
+</p>
+<p>
+Definicja funkcji jest wykonywalnym wyrażeniem, której wartość jest typem <em>funkcji</em>. Lua prekompiluje fragment, ciała funkcji są również prekompilowane. Później, bez względu czy wykonywana jest definicja funkcji, lub gdy tworzona jest <em>instancja</em> funkcji (lub funkcja jest <em>zamykana</em>). Taka instancja funkcji (lub <em>domknięcie</em>) jest końcową wartością tego wyrażenia. Różne instancje tej samej funkcji, moga odwoływać się do różnych zewnętrznych zmiennych lokalnych i mogą mieć inne tabele środowiska.
+</p>
+<p>
+Parametry zachowują się jak zmienne lokalne, które zostały zainicjalizowane wartościami:
+</p>
+<pre>
+	parlist ::= namelist [`,´ `...´] | `...´
+</pre>
+<p>
+Gdy funkcja jest wywoływana, to lista argumentów jest dostosowywana do długości listy parametrów, póki funkcja jest (variadic) lub <em>funkcją ze zmienną ilością parametrów (vararg)</em>, która oznaczona jest przez trzy kropki ('<code>...</code>') na końcu listy parametrów. Funkcja taka, nie dostosowuje swojej listy argumentów; zamiast tego zbiera wszystkie dodatkowe argumenty i przekazuje je do funkcji poprzez <em>wyrażenie zmiennej listy argumentów(vararg expression)</em>, zapisanej również poprzez trzy kropki. Wartość wyrażenia jest listą wszystkich dodatkowych argumentów, podobnie do funkcji z wieloma wynikami. Jeżeli wyrażenie zmiennej listy argumentów jest użyte wewnątrz innego wyrażenie lub w środku listy wyrażeń, to zwracana lista jest dostosowywana do jednego elementu. Jeżeli wyrażenie jest użyte jako ostatni element listy wyrażeń, to nie jest przeprowadzane dostosowywanie długości (chyba że to ostatnie wyrażenie jest zamknięte w nawiasach).
+</p>
+<p>
+Jako przykład, należy rozważyć następujące definicje:
+</p>
+<pre>
+	function f(a, b) end
+	function g(a, b, ...) end
+	function r() return 1,2,3 end
+</pre>
+<p>
+Teraz, mając przypisane argumenty do parametrów i do listy argumentów o zmiennej długości:
+</p>
+<pre>
+	WYWOŁANIE        PARAMETRY
+     
+	f(3)             a=3, b=nil
+	f(3, 4)          a=3, b=4
+	f(3, 4, 5)       a=3, b=4
+	f(r(), 10)       a=1, b=10
+	f(r())           a=1, b=2
+
+	g(3)             a=3, b=nil, ... -->  (nic)
+	g(3, 4)          a=3, b=4,   ... -->  (nic)
+	g(3, 4, 5, 8)    a=3, b=4,   ... -->  5  8
+	g(5, r())        a=5, b=1,   ... -->  2  3
+</pre>
+<p>
+Wyniki zwracane są przy pomocy instrukcji <strong>return</strong> (<a href="#2.4.4">2.4.4</a>). Jeżeli wykonanie dotrze do końca funkcji i bez napotkania instrukcji <strong>return</strong> wtedy funkcja nie zwraca żadnych wyników.
+</p>
+<p>
+Składnika z <em>dwukropkiem</em> jest wykorzystywana do definicji <em>metod</em>, czyli funkcji które posiadają dodatkowy jawny parametr <code>self</code>. Tak więc instrukcja:
+</p>
+<pre>
+	function t.a.b.c:f (params) body end
+</pre>
+<p>
+jest lukrem składniowym dla:
+</p>
+<pre>
+	t.a.b.c.f = function (self, params) body end
+</pre>
+<h2>2.6. <a id="2.6">Reguły widzialności</a></h2>
+<p>
+Lua jest językiem opartym na zakresach leksykalnych. Zakres zmiennych zaczyna się przy pierwszej instrukcji <em>po</em> ich deklaracji i trwa aż do końca najbardziej zagnieżdżonego bloku zawierającego deklarację. Rozważając następujący przykład: 
+</p>
+<pre>
+	x = 10                	-- zmienna globalna
+	do                    	-- nowy blok
+	local x = x         	-- nowe 'x', z wartością 10
+	print(x)            	--> 10
+	x = x+1
+	do                  	-- kolejny blok
+	 local x = x+1     		-- kolejne 'x'
+	 print(x)          		--> 12
+	end
+	print(x)            	--> 11
+	end
+	print(x)              	--> 10  (zmienna globalna)
+</pre>
+<p>
+Należy zauważyć, że w deklaracji <code>local x = x</code>, nowe <code>x</code> deklarowane nie znajduje się jeszcze w zakresie, więc drugie <code>x</code> odwołuje się do zmiennej zewnętrznej.
+</p>
+<p>
+Z powodu zakresów leksykalnych, zmienne lokalne są dostępne bez przeszkód dla funkcji zdefiniowanych wewnątrz ich zakresu. Lokalna zmienna użyta w wewnętrznej funkcji nazywa się <em>wolną zmienną (upvalue)</em>, lub <em>lokalną zewnętrzną zmienną</em>, w środku funkcji wewnętrznej.
+</p>
+<p>
+Należy zauważyć że każde wykonanie instrukcji <strong>local</strong> definiuje nową zmienną lokalną. W następującym przykładzie
+</p>
+<pre>
+	a = {}
+	local x = 20
+	for i=1,10 do
+	  local y = 0
+	  a[i] = function () y=y+1; return x+y end
+	end
+</pre>
+<p>
+Pętla tworzy dziesięć domknięć (czyli dziesięć instancji funkcji anonimowej). Każde z tych domknięć używa innej zmiennej <code>y</code>, podczas gdy wszystkie domknięcia korzystają z tego samego <code>x</code>.
+</p>
+<h2>2.7. <a id="2.7">Obsługa błędów</a></h2>
+<p>
+Ponieważ Lua jest językiem rozszerzeń, to wszystkie akcje Lua uruchamiane są z kodu w C programu gospodarza wywołując funkcję z biblioteki Lua (<a href="#lua_pcall"><code>lua_pcall</code></a>). Kiedykolwiek wystąpi błąd podczas kompilacji lub wykonania, kontrola nad programem przekazywana jest do programu gospodarza w C, gdzie można przeprowadzić odpowiednie działania (takie jak wyświetlenie komunikatu o błędzie).
+</p>
+<p>
+Kod Lua może jawnie wywołać błąd przez wykonanie funkcji <a href="#error"><code>error</code></a>. Jeżeli istnieje potrzeba przechwycenia błędów w Lua, można użyć funkcji <a href="#pcall"><code>pcall</code></a>.
+</p>
+<h2>2.8. <a id="2.8">Metatabele</a></h2>
+<p>
+Każda wartość w Lua posiada <em>metatabelę</em>. <em>Metatabela</em> jest zwykłą tabelą Lua, która definiuje zachowanie oryginalnej wartości pod kątem specjalnych operacji. Możliwa jest zmiana szeregu aspektów zachowania wartości przez ustawienie odpowiednich pól metatabeli. Dla przykładu, kiedy wartość nienumeryczna jest operandem dodawania, Lua sprawdza metatabelę tej wartości pod kątem pola "<code>__add</code>". Jeżeli znajdzie, to wywoływana jest ta funkcja aby przeprowadzić operację dodawania.
+</p>
+<p>
+Klucze metatabeli nazywane są <em>zdarzeniami</em> a ich wartości <em>metametodami</em>. W poprzednim przykładzie zdarzeniem jest "<code>add</code>" i metametodą jest funkcja wykonująca dodawanie.
+</p>
+<p>
+Dostęp do metatabeli dowolnej wartości możliwy jest przez wywołanie funkcji <code><a href="#pdf-getmetatable">getmetatable</a></code>.
+</p>
+<p>
+Możliwa jest podmiana metatabeli tabel przy pomocy funkcji <code><a href="#pdf-setmetatable">setmetatable</a></code>. Nie jest możliwa zmiana metatabel dla innych typów Lua (wyjątek stanowi użycie biblioteki debug), w takim przypadku należy użyć API w języku C.
+</p>
+<p>
+Tabele i dane użytkownika (userdata) posiadają własne metatabele (tabele i dane użytkownika mogą współdzielić swoje metatabele). Wartości i wszystkie inne typy współdzielą jedną metatabelę przypadającą na typ; czyli jedna metatbela przypada dla wszystkich liczb, kolejna dla ciągów znaków itd.
+</p>
+<p>
+Metatabela kontroluje w jaki sposób obiekt zachowuje się podczas operacji arytmetycznych, porównania, łączenia, użycia operatora length oraz indeksowania. Metatabela może definiować funkcję, która będzie wywoływana gdy dane użytkownika (userdata) będą usuwane przez garbage collectora. Dla każdej z tych operacji Lua przypisuje konkretny klucz zwany <em>zdarzeniem (event)</em>. Więc przypisana do tego klucza wartość (metametoda), kontroluje w jaki sposób Lua przeprowadzi operację.
+</p>
+<p>
+Metatabele kontrolują następujące operacje. Każda operacja jest rozpoznawana przez odpowiadającą jej nazwę. Klucz każdej operacji jest ciągiem znaków z nazwą poprzedzoną dwoma znakami podkreślenia "<code>__</code>"; dla przykładu, kluczem operacji jest "add", w postaci ciągu znaków nazwa ta wystąpi jako "<code>__add</code>". Opis działania funkcji, wyjaśnia semantykę tych operacji oraz wykonania ich przez interpreter.
+</p>
+<p>
+Kod poniżej napisany w Lua jest tylko ilustracją poniższych operacji; właściwa implementacja jest zakodowana w interpreterze i jest znacznie bardziej efektywna niż podana symulacja. Wszystkie funkcje użyte w tych opisach (<a href="#pdf-rawget">rawget</a>, <a href="#pdf-tonumber">tonumber</a>, itd.) są opisane w <a href="#5.1">5.1</a>. W szczególności, aby uzyskać metametodę podanego obiektu, używamy wyrażenia
+</p>
+<pre>
+	metatable(obj)[event]
+</pre>
+<p>
+Co powinno być odczytywane jako:
+</p>
+<pre>
+	rawget(getmetatable(obj) or {}, event)
+</pre>
+<p>
+Dostęp do metametod nie powoduje wywołania innych metametod, oraz dostęp do obiektów bez metametod nie kończy się błędem (po prostu wynikiem jest <strong>nil</strong>).
+</p>
+<ul>
+	<li><strong>"add"</strong>: operator <code>+</code>
+		<p>
+			Funkcja <code>getbinhandler</code> definiuje jak Lua wybiera operator dla operacji binarnej. Najpierw Lua próbuje pierwszy operand. Jeżeli jego typ, nie jest zdefiniowany do obsłużenia tej operacji to Lua wybiera drugi operand.
+		</p>
+		<pre>
+	function getbinhandler (op1, op2, event)
+	  return metatable(op1)[event] or metatable(op2)[event]
+	end
+		</pre>
+		<p>Poprzez użycie tej funkcji zachowanie <code>op1 + op2</code> opisane jest jako:</p>
+		<pre>
+	function add_event (op1, op2)
+	  local o1, o2 = tonumber(op1), tonumber(op2)
+	  if o1 and o2 then  -- obydwa operandy są numeryczne?
+		return o1 + o2   -- '+' prosta operacja 'add'
+	  else  -- przynajmniej jeden z operandów nie jest numerem
+		local h = getbinhandler(op1, op2, "__add")
+		if h then
+		  -- uruchom obsługę operacji z obydwoma operandami
+		  return (h(op1, op2))
+		else  -- brak operacji: domyślne zachowanie
+		  error(···)
+		end
+	  end
+	end
+		</pre>
+	</li>
+	<li>
+		<strong>"sub"</strong>: operator <code>-</code>. Zachowanie podobne do operacji "add".
+	</li>
+	<li>
+		<strong>"mul"</strong>: operator <code>*</code>. Zachowanie podobne do operacji "add".
+	</li>
+	<li>
+		<strong>"div"</strong>: operator <code>/</code>. Zachowanie podobne do operacji "add".
+	</li>
+	<li>
+		<strong>"mod"</strong>: operator <code>%</code>. Zachowanie podobne do operacji "add", z prymitywną operacją <code>o1 - floor(o1/o2)*o2</code> jako operacją prymitywną.
+	</li>
+	<li>
+		<strong>"pow"</strong>: operator <code>^</code> (potęgowanie). Zachowanie podobne do operacji "add", z funkcją <code>pow</code> (z biblioteki math języka C) jako operacją prymitywną.
+	</li>
+	<li>
+		<strong>"unm"</strong>: operator unarny <code>-</code>.
+		<pre>
+	function unm_event (op)
+	  local o = tonumber(op)
+	  if o then  -- operand jest liczbą
+		return -o  -- '-' prymmitywna operacja 'unm'
+	  else  -- operand nie jesy liczbą.
+		-- Spróbuj znaleźć metodę obsługi operanda 
+		local h = metatable(op).__unm
+		if h then
+		  -- uruchom metodę obsługi dla operanda
+		  return (h(op))
+		else  -- obsługa niedostępna: domyślne zachowanie
+		  error(···)
+		end
+	   end
+	end
+		</pre>
+	</li>
+	<li>
+		<strong>"concat"</strong>: operator <code>..</code>(konkatenacji).
+		<pre>
+    function concat_event (op1, op2)
+      if (type(op1) == "string" or type(op1) == "number") and
+         (type(op2) == "string" or type(op2) == "number") then
+           return op1 .. op2  -- najprostsze łączenie ciągów znaków
+      else
+      local h = getbinhandler(op1, op2, "__concat")
+        if h then
+          return (h(op1, op2))
+        else
+		  error(···)
+		end
+	  end
+	end
+		</pre>
+	</li>
+	<li>
+		<strong>"len"</strong>: operator <code>#</code>.
+		<pre>
+    function len_event (op)
+      if type(op) == "string" then
+        return strlen(op)         -- prymitywne wyznaczanie długości ciągu znaków
+      elseif type(op) == "table" then
+        return #op                -- primitywne wyznaczanie długości tabeli
+      else
+        local h = metatable(op).__len
+        if h then
+          -- wywołaj metodę obsługi z operanda
+          return (h(op))
+        else  -- brak metody obsługi: domyślne zachowanie
+          error(···)
+        end
+      end
+    end
+		</pre>
+		<p>
+		W punkcie <a href="#2.5.5">2.5.5</a> opisano wyznaczanie rozmiaru tabeli.
+		</p>
+	</li>
+	<li>
+		<strong>"eq"</strong>: operator <code>==</code>. Funkcja <code>getcomphandler</code> definiuje w jaki sposób Lua wybiera metametodę dla operatorów porównania. Odpowiednia metametoda jest wybierana jedynie wtedy gdy obydwa porównywane obiekty są tego samego typu i posiadają taką samą metametodę dla wybranej operacji.
+		<pre>
+    function getcomphandler (op1, op2, event)
+      if type(op1) ~= type(op2) then return nil end
+      local mm1 = metatable(op1)[event]
+      local mm2 = metatable(op2)[event]
+      if mm1 == mm2 then return mm1 else return nil end
+    end
+		</pre>
+		<p>Zdarzenie "eq" jest zdefiniowane poniżej jako:</p>
+		<pre>
+    function eq_event (op1, op2)
+      if type(op1) ~= type(op2) then  -- różne typy?
+        return false   -- different objects
+      end
+      if op1 == op2 then   -- primitive equal?
+        return true   -- objects are equal
+      end
+      -- spróbuj metametodę
+      local h = getcomphandler(op1, op2, "__eq")
+      if h then
+        return (h(op1, op2))
+      else
+        return false
+      end
+    end
+		</pre>
+		<p>
+			Wyrażenie <code>a ~= b</code> jest równoważne <code>not (a == b)</code>. 
+		</p>
+	</li>
+	<li>
+		<strong>"lt"</strong>: operator &lt;
+		<pre>
+    function lt_event (op1, op2)
+      if type(op1) == "number" and type(op2) == "number" then
+        return op1 &lt; op2   -- porównanie numeryczne
+      elseif type(op1) == "string" and type(op2) == "string" then
+        return op1 &lt; op2   -- porównanie leksykograficzne
+      else
+        local h = getcomphandler(op1, op2, "__lt")
+        if h then
+          return (h(op1, op2))
+        else
+          error(···)
+        end
+      end
+    end
+		</pre>
+		<p>Wyrażenie <code>a &gt; b</code> jest równoważne do <code>b &lt; a</code>. 
+	</li>
+	<li>
+		<strong>"le"</strong>: operator <code>&lt;=</code>
+		<pre>
+    function le_event (op1, op2)
+      if type(op1) == "number" and type(op2) == "number" then
+        return op1 &lt;= op2   -- porównanie numeryczne
+      elseif type(op1) == "string" and type(op2) == "string" then
+        return op1 &lt;= op2   -- porównanie leksykograficzne
+      else
+        local h = getcomphandler(op1, op2, "__le")
+        if h then
+          return (h(op1, op2))
+        else
+          h = getcomphandler(op1, op2, "__lt")
+          if h then
+            return not h(op2, op1)
+          else
+            error(···)
+          end
+        end
+      end
+    end
+		</pre>
+		<p>Wyrażenie <code>a &gt;= b</code> jest równoważne do <code>b &lt;= a</code>. Należy zauważyć że, w przypadku braku metametody "le", Lua próbuje "lt", zakładając że <code>a &lt;= b</code> jest równoważne do <code>not (b &lt; a)</code>. 
+	</li>
+	<li>
+		<strong>"index"</strong>: Indeksowy dostęp do tabeli <code>tabela[klucz]</code>.
+		<pre>
+    function gettable_event (table, key)
+      local h
+      if type(table) == "table" then
+        local v = rawget(table, key)
+        if v ~= nil then return v end
+        h = metatable(table).__index
+        if h == nil then return nil end
+      else
+        h = metatable(table).__index
+        if h == nil then
+          error(···)
+        end
+      end
+      if type(h) == "function" then
+        return (h(table, key))     -- wywołaj metodę obsługi
+      else return h[key]           -- lub powtórz operację
+      end
+    end
+		</pre>
+	</li>
+	<li>
+		<strong>"newindex"</strong>: Przypisanie wartości do indeksu tabeli <code>tabela[klucz] = wartość</code>.
+		<pre>
+    function settable_event (table, key, value)
+      local h
+      if type(table) == "table" then
+        local v = rawget(table, key)
+        if v ~= nil then rawset(table, key, value); return end
+        h = metatable(table).__newindex
+        if h == nil then rawset(table, key, value); return end
+      else
+        h = metatable(table).__newindex
+        if h == nil then
+          error(···)
+        end
+      end
+      if type(h) == "function" then
+        h(table, key,value)           -- wywołaj metodę obsługi
+      else h[key] = value             -- lub powtórz operację
+      end
+    end
+		</pre>
+	</li>
+	<li>
+		<strong>"call"</strong>: wywoływana gdy Lua uruchamia wartość.
+		<pre>
+    function function_event (func, ...)
+      if type(func) == "function" then
+        return func(...)   -- podstawowe wywołanie
+      else
+        local h = metatable(func).__call
+        if h then
+          return h(func, ...)
+        else
+          error(···)
+        end
+      end
+    end
+		</pre>
+	</li>
+</ul>
+<h2>2.9. <a id="2.9">Środowiska</a></h2>
+<p>
+Poza metatabelami, obiekty typu wątek, funkcja i userdata mogą mieć inną tabelę powiązaną, zwaną <em>środowiskiem</em>. Podobnie jak metatabele, środowiska są regularnymi tabelami i wiele obiektów może dzielić to samo środowisko.
+</p>
+<p>
+Tworzone wątki współdzielą środowisko wątku, w którym są tworzone. Tworzone userdata i funkcje C współdzielą środowisko funkcji tworzącej. Nie zagnieżdżone funkcje Lua (stworzone przez <a href="#pdf-loadfile">loadfile</a>, <a href="#pdf-loadstring">loadString</a> lub <a href="#pdf-load">load</a>) są tworzone dzieląc środowisko wątku tworzenia. Tworzone funkcje zagnieżdżone Lua dzielą środowisko funkcji Lua, w której są tworzone.
+</p>
+<p>
+Środowiska związane z UserData nie mają znaczenia dla Lua. To jest tylko cecha wygoda dla programistów by powiązać tabelę z userdata.
+</p>
+<p>
+Środowiska związane z wątkami nazywane są <em>środowiskami globalnymi</em>. Są one używane jako środowiska domyślne dla wątków i nie zagnieżdżonych funkcji Lua stworzonych przez wątek oraz mogą być bezpośrednio dostępne przez kod C (<a href="#3.3">3.3</a>).
+</p>
+<p>
+Środowisko związane z funkcją C może być bezpośrednio dostępne dla kodu C (<a href="#3.3">3.3</a>). Jest ono stosowane jako środowisko domyślne dla innych funkcji w języku C i userdata tworzonych przez funkcję.
+</p>
+<p>
+Środowiska związane z funkcjami Lua są używane do uzyskiwania dostępu do zmiennych globalnych wewnątrz funkcji (<a href="#2.3">2.3</a>). Są one używane jako środowisko domyślne dla funkcji zagnieżdżonych Lua stworzonych przez funkcję.
+</p>
+<p>
+Można zmienić środowisko funkcji Lua lub działającego wątku przez wywołanie funkcji <a href="#pdf-setenv">setfenv</a>. Można pobrać środowisko funkcji Lua lub działającego wątku przez wywołanie <a href="#getfenv">getenv</a>. Aby zmodyfikować środowiska innych obiektów (userdata, funkcje C, inne wątki) należy użyć API języka C.
+</p>
+<h2>2.10. <a id="2.10">Garbage collector</a></h2>
+<p>
+Lua wykonuje automatyczne zarządzanie pamięcią. Oznacza to, że nie trzeba się martwić o alokację pamięci dla nowych obiektów, ani o zwalnianie jej, gdy obiekty nie są już potrzebne. Lua zarządza pamięcią automatycznie uruchamiając od czasu do czasu garbage collector, aby zebrać wszystkie <em>martwe</em> obiekty (czyli obiekty, które nie są już dostępne z Lua). Cała pamięć używana przez Lua jest automatycznie zarządzana: tabele, userdata funkcje, wątki, ciągi znaków itp.
+</p>
+<p>
+Lua realizuje przyrostowy kolektor "zaznacz i usuń". Wykorzystuje dwie liczby by kontrolować swoje cykle zbierania: pauza garbage-collectora i mnożnik kroku garbage-collectora. Obydwie liczby są pod postacią punktów procentowych (a więc wartość 100 oznacza wewnętrzną wartość 1).
+</p>
+<p>
+Pauza garbage-collectora kontroluje jak długo kolektor czeka przed rozpoczęciem nowego cyklu. Większe wartości sprawiają, że kolektor jest mniej agresywny. Wartości mniejsze niż 100 oznaczają, że kolektor nie będzie czekać, aby rozpocząć nowy cykl. Wartość 200 oznacza, że kolektor czeka aby liczba całkowitej pamięci w użyciu podwoiła się, przed rozpoczęciem nowego cyklu.
+</p>
+<p>
+Mnożnik kroku kontroluje względną prędkość kolektora w stosunku do alokacji pamięci. Większe wartości sprawiają, że kolektor jest bardziej agresywny, ale także zwiększają rozmiar każdego przyrostowego kroku. Wartości mniejsze niż 100 sprawiają, że kolektor jest zbyt wolny i może doprowadzić do niezakończenia cyklu przez kolektora. Domyślnie 200 oznacza, że kolektor przebiega z "dwa razy" większą prędkością niż prędkość alokacji pamięci.
+</p>
+<p>
+Można zmienić te wartość przez wywołanie funkcji <a href="#lua_gc">lua_gc</a> w C lub <a href="#pdf-collectgarbage">collectgarbage</a> w Lua. Z pomocą tych funkcji można również kontrolować bezpośrednio kolektora (np. zatrzymywać i restartować).
+</p>
+<h3>2.10.1 <a id="2.10.1">Metametody Garbage Collectora</a></h3>
+<p>
+Korzystając z API C, można ustawić metametody dla userdata (<a href="#2.8">2.8</a>). Metametody nazywane są również <em>finalizatorami</em>. Finalizatory pozwalają koordynować oczyszczanie pamięci z zarządzaniem zewnętrznymi zasobami (np. zamykanie plików, połączeniami sieciowymi lub z bazami danych, lub uwalniając inną pamięć).
+</p>
+<p>
+Niepotrzebne userdata z polem <code>__gc</code> w ich metatabelach nie są zbierane natychmiast przez garbage collectora. Zamiast tego Lua umieszcza je na liście. Po procesie zbierania, Lua przeprowadza operację dla każdego userdata na liście zgodnie z zasadą przedstawioną w poniższej funkcji.
+</p>
+<pre>
+    function gc_event (udata)
+      local h = metatable(udata).__gc
+      if h then
+        h(udata)
+      end
+    end
+</pre>
+<p>
+Pod koniec każdego cyklu zbierania, finalizatory dla userdata są wywoływane w <em>odwrotnej</em> kolejności do kolejności ich utworzenia wśród tych zebranych w danym cyklu. Oznacza to, że pierwszy finalizator będzie uruchomiony tym, który jest przypisany do danych userdata utworzonych jako ostatnie w programie. Dane userdata są usuwane w następnym cyklu zbierania.
+</p>
+<h3>2.10.2 <a id="2.10.2">Słabe tabele</a></h3>
+<p>
+<em>Słaba tabela</em> jest tabelą, której elementami są <em>słabe referencje</em>. Słabe odwołanie jest ignorowane przez garbage collector. Innymi słowy, jeżeli tylko jedynymi refrencjami do obiektu są słabe referencje, to garbage collector uprzątnie taki obiekt.
+</p>
+<p>
+Słaba tabela może posiadać słabe klucze lub słabe wartości. Tabela ze słabymi kluczami pozwala na uprzątnięcie swoich kluczy, ale zapobiega przed usuwaniem swoich wartości. Tabela składająca się ze słabych kluczy i słabych wartości uprzątnięcie zarówno kluczy oraz wartości. W każdym razie, jeżeli sprzątany jest klucz lub wartość to cała para zostanie usunięta z tabeli. Słabość tabeli jest sterowana przez pole <code>__mode</code> z metatabeli tej tabeli. Jeśli pole <code>__mode</code> to ciąg znaków zawierający znak <code>'k'</code>, klucze w tabeli są słabe. Jeśli pole <code>__mode</code> zawiera <code>'v'</code>, wartości podane w tabeli są słabe.
+</p>
+<p>
+Po użyciu tabeli jako metatabeli, nie należy zmieniać wartości pola <code>__mode</code>. W przeciwnym wypadku "słabe" zachowanie tabel kontrolowanych przez tą metatabelę będzie niezdefiniowany. 
+</p>
+<h2>2.11. <a id="2.11">Współprogramy</a></h2>
+<p>
+Lua wspiera współprogramy, zwane także <em>współpracująca wielowątkowością</em>. Współprogram w Lua reprezentowany jest przez niezależny wątek wykonania. W przeciwieństwie do wątków w systemach wielowątkowych, współprogram zawiesza swoje wykonanie tylko podczas jawnego wywołania funkcji, do której przekazywane jest sterowanie.
+</p>
+<p>
+Tworzenie współprogramu wykonywane jest przez wywołanie funkcji <code><a href="#pdf-coroutine.create">coroutine.create</a></code>. Głównym argumentem tej funkcji jest funkcja, będąca główna funkcją tego współprogramu. Funkcja <code>create</code> jedynie tworzy współprogram i zawraca uchwyt do niego (jako obiekt typu <em>thread</em>); nie powoduje to uruchomienia wykonania współprogramu.
+</p>
+<p>
+Podczas pierwszego wykonania <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code>, przekazując jako pierwszy argument, wątek zwrócony przez <code><a href="#pdf-coroutine.create">coroutine.create</a></code>, współprogram zaczyna być wykonywany, od pierwszej linii swojej głównej funkcji. Dodatkowe argumenty przekazane do <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code> są przekazywane do głównej funkcji współprogramu. Po uruchomieniu współprogramu, działa on do momentu przerwania działania lub <em>przekazania sterowania</em>.
+</p>
+<p>
+Współprogram może przerwać swoje działanie na dwa sposoby: normalnie, gdy w głównej funkcji dochodzi do zwrócenia wartości (wyraźnie, lub przez osiągnięciu ostatniej instrukcji); lub awaryjnie w przypadku błędów. W pierwszym przypadku funkcja <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code> zwraca <strong>true</strong>, oraz dodatkowe wartości zwrócone przez główną funkcje współprogramu. W przypadku błędów, <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code> zwraca <strong>false</strong>, oraz dodatkowy komunikat o błędzie.
+</p>
+<p>
+Przekazanie sterowania przez współprogram odbywa się przez wywołanie funkcji <code><a href="#pdf-coroutine.yield">coroutine.yield</a></code>. Gdy współprogram przekazuje sterowanie, odpowiadająca mu funkcja <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code> niezwłocznie zwraca, nawet gdy przekazanie sterowania odbywa się wewnątrz zagnieżdżonego wywołania funkcji (czyli nie w głównej funkcji, ale w funkcji bezpośrednio lub niebezpośrednio wywołanej przez główną funkcję). W przypadku przekazania sterowania, <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code>, również zwraca <strong>true</strong>, oraz wszystkie dodatkowe wartości przekazan do <code><a href="#pdf-coroutine.yield">coroutine.yield</a></code>, zwracając wszystkie dodatkowe argumenty przekazane do <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code>.
+</p>
+<p>
+Podobnie jak <code><a href="#pdf-coroutine.create">coroutine.create</a></code>, funkcja <code><a href="#pdf-coroutine.wrap">coroutine.wrap</a></code>, również tworzy współprogram, ale zamiast zwracać, sam współprogram, zwraca funkcję, która gdy jest wywołana, przywraca działanie współprogramu. Wszystkie argumenty, przekazane do tej funkcji są przekazywane jako dodatkowe parametry funkcji <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code>. Funkcja <code><a href="#pdf-coroutine.wrap">coroutine.wrap</a></code> zwraca wszystkie wartości zwrócone przez <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code>, z wyjątkiem pierwszego (kod błędu w postaci wartości boolean). W przeciwieństwie do <code><a href="#pdf-coroutine.resume">coroutine.resume</a></code> , funkcja <code><a href="#pdf-coroutine.wrap">coroutine.wrap</a></code> nie przechwytuje żadnych błędów; jakikolwiek błąd jest przechwytywany przez funkcję wywołującą.
+</p>
+<p>Rozważając przykładowy kod:</p>
+<pre>
+     function foo (a)
+       print("foo", a)
+       return coroutine.yield(2*a)
+     end
+     
+     co = coroutine.create(function (a,b)
+           print("co-body", a, b)
+           local r = foo(a+1)
+           print("co-body", r)
+           local r, s = coroutine.yield(a+b, a-b)
+           print("co-body", r, s)
+           return b, "end"
+     end)
+            
+     print("main", coroutine.resume(co, 1, 10))
+     print("main", coroutine.resume(co, "r"))
+     print("main", coroutine.resume(co, "x", "y"))
+     print("main", coroutine.resume(co, "x", "y"))
+</pre>
+<p>
+Przy uruchomieniu, otrzymany zostanie następujący wynik:
+</p>
+<pre>
+     co-body 1       10
+     foo     2
+     
+     main    true    4
+     co-body r
+     main    true    11      -9
+     co-body x       y
+     main    true    10      end
+     main    false   cannot resume dead coroutine
+</pre>
+<h1>3. <a id="3">Interfejs programistyczny aplikacji</a></h1>
+<p>
+	Ten rozdział opisuje API języka C dla Lua, czyli zbiór funkcji w języku C dostępnych w programie hosta do komunikowania się z Lua. Wszystkie funkcje API i związane z nimi typy i stałe są zadeklarowane w pliku nagłówkowym <code>lua.h</code>.
+</p>
+<p>
+	Nawet wtedy, gdy używamy terminu "funkcja", każdy obiekt w API może być dostarczany jako makro. Wszystkie te makra wykorzystują każdy z ich argumentów dokładnie jeden raz (z wyjątkiem pierwszego argumentu, który jest zawsze stanem Lua), a więc nie generują żadnych ukrytych skutków ubocznych.
+</p>
+<p>
+	Jak w większości bibliotek C, Lua funkcje API nie sprawdzają swoich argumentów pod kątem ważności i spójności. Można jednak zmienić to zachowanie, poprzez skompilowanie Lua z odpowiednią definicją makra <code>luai_apicheck</code>, w pliku <code>luaconf.h</code>.
+</p>
+<h2>3.1. <a id="3.1">Stos</a></h2>
+<p>
+Lua wykorzystuje <em>wirtualny stos</em> do przekazywania wartości do i z programu hosta w C. Każdy element w stosie reprezentuje wartość Lua (<strong>nil</strong>, liczbę, ciąg znaków itd.).
+</p>
+<p>
+Kiedykolwiek Lua wywołuje kod z C, wywoływana funkcja dostaje nowy stos, który jest niezależny od poprzednich stosów i stosów funkcji języka C, które są wciąż aktywne. Stos taki początkowo nie zawiera żadnych argumentów przekazywanych do funkcji języka C i jest to miejsce w które funkcja ta zwraca swój wynik do funkcji wywołującej (więcej w <a href="#lua_CFunction"><code>lua_CFunction</code></a>).
+</p>
+<p>
+Dla wygody, większość operacji zapytań w API nie trzyma się dokładnie zasad stosu. Większość z nich może odwołać się do dowolnego elementu w stosie wykorzystując <em>indeks</em>: dodatni indeks reprezentuje <em>bezwzględną</em> pozycję na stosie (zaczynając od 1); ujemny indeks oznacza <em>przesunięcie</em> względem góry stosu. Bardziej dokładnie, jeżeli stos posiada <em>n</em> elementów, to indeks o wartości 1 oznacza pierwszy element (czyli element, który został umieszczony w stosie jako pierwszy) i indeks o wartości <em>n</em> reprezentuje ostatni element; indeks o wartości -1 również odnosi się do ostatniego elementu (czyli elementu znajdującego się na szczycie stosu) a indeks -n oznacza, że jest to pierwszy element. Należy przyjąć że indeks jest <em>ważny</em> gdy jego wartość zawiera się między 1 i szczytem stosu (czyli <code>1 ≤ abs(index) ≤ top</code>).
+</p>
+<h2>3.2. <a id="3.2">Rozmiar stosu</a></h2>
+<p>
+Podczas interakcji z API Lua, należy być konsekwentnym. W szczególności, <em>należy kontrolować przepełnienie stosu</em>. Do zwiększenia rozmiaru stosu używa się funkcji <a href="#lua_checkstack"><code>lua_checkstack</code></a>.
+</p>
+<p>
+Gdy Lua wywołuje kod w C, sprawdza czy przynajmniej dostępnych jest <code>LUA_MINSTACK</code> miejsc na stosie. <code>LUA_MINSTACK</code> posiada wartość 20, w większości przypadków, nie należy się martwić o miejsce na stosie, do momentu gdy tworzony kod nie posiada pętli umieszczających elementów na stosie.
+</p>
+<p>
+Większość funkcji zapytań, przyjmuje wskaźniki jako dowolną wartość wewnątrz dostępnej przestrzeni stosu, czyli wskaźniki są do maksymalnego rozmiaru stosu ustawionego przez <a href="#lua_checkstack"><code>lua_checkstack</code></a>. Takie wskaźniki nazywane są <em>wskaźnikami dopuszczalnymi</em>. Definiuje się je w następujący sposób:
+</p>
+<pre>
+     (index < 0 && abs(index) <= top) ||
+     (index > 0 && index <= stackspace)
+</pre>
+<h2>3.3. <a id="3.3">Pseudo wskaźniki</a></h2>
+
+
+<h2>3.4. <a id="3.4">Domknięcia w C</a></h2>
+
+<h2>3.5. <a id="3.5">Rejestr</a></h2>
+
+<h2>3.6. <a id="3.6">Przechwytywanie błędów w C</a></h2>
+
+<h2>3.7. <a id="3.7">Funkcje i typy</a></h2>
+
+<h2>3.8. <a id="3.8">Interfejs debugowania</a></h2>
+
+<h1>4. <a id="4">Biblioteka zewnętrzna</a></h1>
+
+<h2>4.1. <a id="4.1">Funkcje i typy</a></h2>
+
+<h1>5. <a id="5">Biblioteki standardowe</a></h1>
+<p>
+Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplementowane bezpośrednio korzystając z API języka C. Niektóre z tych funkcji są istotnymi składnikami języka (jak <code><a href="#pdf-type">type</a></code> i <code><a href="#pdf-getmetatable">getmetatable</a></code>); inne pozwalają na dostęp do "zewnętrznych" elementów (takich jak wejście/wyjście); oraz innych, które mogą być zaimplementowane w Lua, ale są na tyle użyteczne, lub wymagana jest ich wysoka wydajność, która wymaga bezpośredniej implementacji w języku C (tak jak <code><a href="#pdf-table.sort">table.sort</a></code>).
+</p>
+<p>
+
+</p>
+<h2>5.1. <a id="5.1">Funkcje podstawowe</a></h2>
+
+<h2>5.2. <a id="5.2">Operacje na funkcjach współbieżnych</a></h2>
+
+<h2>5.3. <a id="5.3">Moduły</a></h2>
+
+<h2>5.4. <a id="5.4">Operacje na ciągach znaków</a></h2>
+
+<h3>5.4.1. <a id="5.4.1">Wzorce</a></h3>
+
+<h2>5.5. <a id="5.5">Operacje na tabelach</a></h2>
+
+<h2>5.6. <a id="5.6">Funkcje matematyczne</a></h2>
+
+<h2>5.7. <a id="5.7">Funkcje Wejścia i Wyjścia</a></h2>
+
+<h2>5.8. <a id="5.8">Funkcje Systemu Operacyjnego</a></h2>
+
+<h2>5.9. <a id="5.9">Biblioteka "Debug"</a></h2>
+
+<h1>6. <a id="6">Lua samodzielnie</a></h1>
+<p>
+Mimo, że język Lua został zaprojektowany jako język rozszerzeń, umieszczany w programie napisanym w C, to dosyć często programy są uruchamiane samodzielnie. Interpreter dla Lua jako samodzielnego języka występuje pod nazwą <code>lua</code> i jest dostarczany z standardową dystrybucją. Wersja samodzielna interpretera zawiera wszystkie biblioteki standardowe wraz z biblioteką debug. Sposób użycia:
+</p>
+<pre>
+	lua [opcje] [skrypt [argumenty]]
+</pre>
+<p>Dostępne opcje:</p>
+<ul>
+	<li><code>-e stat</code>: uruchamia ciąg znaków <em>stat</em>,</li>
+	<li><code>-l mod</code>: dołącza bibliotekę <em>mod</em>,</li>
+	<li><code>-i</code>: przechodzi w tryb interaktywny po uruchomieniu <em>skryptu</em>,</li>
+	<li><code>-v</code>: wyświetla informacje o wersji,</li>
+	<li><code>--</code>: nie uwzględnia dalszych opcji,</li>
+	<li><code>-</code>: przetwarza wejście standardowe (<code>stdin</code>) jako plik i nie uwzględnia dalszych opcji.</li>
+</ul>
+<p>
+Po przetworzeniu wszystkich opcji, <code>lua</code> uruchamia podany <em>skrypt</em>, przekazując podane <em>argumenty</em>. Podczas uruchamiania bez argumentów, <code>lua</code> zachowuje się jak <code>lua -v -i</code> gdy wejście standardowe (<code>stdin</code>) jest terminalem, a jako <code>lua</code> gdy tak nie jest.
+</p>
+<p>
+Przed uruchomieniem jakiegokolwiek argumentu, interpreter sprawdza zmienną środowiskową <code>LUA_INIT</code>. Jeżeli format zmiennej jest jak <em>@filename</em> to <code>lua</code> uruchamia ten plik. W przeciwnym razie uruchamiany jest ciąg znaków znajdujący się w zmiennej.
+</p>
+<p>
+Wszystkie opcje przetwarzane są zgodnie z podaną kolejnością, z wyjątkiem <code>-i</code>. Przykładowo, wywołanie takie jak
+</p>
+<pre>
+	$ lua -e'a=1' -e 'print(a)' script.lua
+</pre>
+<p>
+spowoduje, że w pierwszej kolejności <code>a</code> zostanie ustawione na 1, później zostanie wyświetlona wartość <code>a</code> (czyli "1") i w końcu zostanie uruchomiony plik <code>script.lua</code> bez żadnych argumentów (znak $ to znak linii poleceń powłoki systemu. Znak ten zależy od używanego systemu operacyjnego).
+</p>
+<p>
+Przed uruchomieniem skryptu, <code>lua</code> zbiera wszystkie argumenty z linii poleceń w globalnej tabeli <code>arg</code>. Nazwa skryptu przechowywana jest w tabeli pod indeksem 0, pierwszy argument przekazany do skryptu zaraz po nazwie skryptu znajduje się w tabeli pod indeksem 1 i tak dalej. Wszystkie argumenty znajdujące się przed nazwą skryptu (takie jak nazwa interpretera i dodatkowe opcje) trafiają do tabeli z ujemnymi wartościami indeksu. Dla przykładu, przy wywołaniu:
+</p>
+<pre>
+	$ lua -la b.lua t1 t2
+</pre>
+<p>
+najpierw zostanie uruchomiony plik <code>a.lua</code>, później utworzona tabela
+</p>
+<pre>
+	arg = { [-2] = "lua", [-1] = "-la",
+             [0] = "b.lua",
+             [1] = "t1", [2] = "t2" }	 
+</pre>
+<p>i na końcu plik <code>b.lua</code>. Skrypt uruchamiany jest z argumentami <code>arg[1], arg[2], ...</code>. Dostęp do tych parametrów możliwy jest też przez wyrażenie zmiennej liczby argumentów <code>'...'</code>.
+</p>
+<p>
+W trybie interaktywnym, wpisanie niekompletnej instrukcji spowoduje, że interpreter czeka na dokończenie jej przez podanie innego znaku linii poleceń.
+</p> 
+<p>
+Jeżeli zmienna globalna <code>_PROMPT</code> zawiera ciąg znaków, wtedy jej wartość używana jest jako znak linii poleceń. Podobnie, jeżeli zmienna globalna <code>_PROMPT2</code> zawiera ciąg znaków, to wartość tej zmiennej używana jest jako drugi znak linii poleceń (wyświetlany podczas niekompletnych instrukcji). Obydwa symbole mogą być zmienione bezpośrednio przez podanie ich w linii poleceń w dowolnym programie przez przypisanie do zmiennej <code>_PROMPT</code>. W następującym przykładzie:
+</p>
+<pre>
+	$ lua -e"_PROMPT='myprompt> '" -i
+</pre>
+<p>
+(Zewnętrzne para cudzysłowów pochodzi od powłoki systemu operacyjnego, wewnętrzna para apostrofów należy do Lua.) Należy zwrócić uwagę na użycie parametru <code>-i</code>, który powoduje uruchomienie trybu interaktywnego, gdyż w przeciwnym wypadku program zakończyłby się bez żadnego wyniku zaraz po wykonaniu przypisania do <code>_PROMPT</code>.
+</p>
+<p>
+By zapewnić użycie Lua jako interpretera skryptów w systemach uniksowych, samodzielny interpreter pomija pierwszą linię skryptu gdy ta rozpoczyna się od #. Ponadto skrypty lua mogą posiadać możliwość uruchomiania jak zwykłe programy przez użycie <code>chmod +x</code> i dodanie <code>#!</code>, tak jak:
+</p>
+<pre>
+	#!/usr/local/bin/lua
+</pre>
+<p>
+Oczywiście, lokalizacja interpretera lua zależy od używanego systemu operacyjnego. Jeżeli <code>lua</code> znajduje się w zmiennej systemowej <code>PATH</code> wtedy:
+</p>
+<pre>
+	#!/usr/bin/env lua
+</pre>
+<p>
+jest bardziej elastycznym rozwiązaniem.
+</p>
+<h1>7. <a id="7">Rozbieżności względem poprzednich wersji</a></h1>
+
+<h2>7.1. <a id="7.1">Zmiany w języku</a></h2>
+
+<h2>7.2. <a id="7.2">Zmiany w bibliotekach</a></h2>
+
+<h2>7.3. <a id="7.3">Zmiany w API</a></h2>
+
+<h1>8. <a id="8">Pełna składnia Lua</a></h1>
+<p>
+Poniżej znajduje się pełna składnia Lua podana w rozszerzonym BNF. Opis nie wyjaśnia kolejności operatorów.
+</p>
+<pre>
+	chunk ::= {stat [`;´]} [laststat [`;´]]
+
+	block ::= chunk
+
+	stat ::=  varlist `=´ explist | 
+		 functioncall | 
+		 do block end | 
+		 while exp do block end | 
+		 repeat block until exp | 
+		 if exp then block {elseif exp then block} [else block] end | 
+		 for Name `=´ exp `,´ exp [`,´ exp] do block end | 
+		 for namelist in explist do block end | 
+		 function funcname funcbody | 
+		 local function Name funcbody | 
+		 local namelist [`=´ explist] 
+
+	laststat ::= return [explist] | break
+
+	funcname ::= Name {`.´ Name} [`:´ Name]
+
+	varlist ::= var {`,´ var}
+
+	var ::=  Name | prefixexp `[´ exp `]´ | prefixexp `.´ Name 
+
+	namelist ::= Name {`,´ Name}
+
+	explist ::= {exp `,´} exp
+
+	exp ::=  nil | false | true | Number | String | `...´ | function | 
+		 prefixexp | tableconstructor | exp binop exp | unop exp 
+
+	prefixexp ::= var | functioncall | `(´ exp `)´
+
+	functioncall ::=  prefixexp args | prefixexp `:´ Name args 
+
+	args ::=  `(´ [explist] `)´ | tableconstructor | String 
+
+	function ::= function funcbody
+
+	funcbody ::= `(´ [parlist] `)´ block end
+
+	parlist ::= namelist [`,´ `...´] | `...´
+
+	tableconstructor ::= `{´ [fieldlist] `}´
+
+	fieldlist ::= field {fieldsep field} [fieldsep]
+
+	field ::= `[´ exp `]´ `=´ exp | Name `=´ exp | exp
+
+	fieldsep ::= `,´ | `;´
+
+	binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ | 
+		 `<´ | `<=´ | `>´ | `>=´ | `==´ | `~=´ | 
+		 and | or
+
+	unop ::= `-´ | not | `#´
+
+</pre>
+		</div>
+		<div id="footer">
+			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			
+		</div>
+	</div>
+  </body>
+</html>

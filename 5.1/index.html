@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Spis treści - Lua 5.1 - lua.org.pl</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
+	<meta name="keywords" content="lua 5.1 manual programowanie lua.org.pl index dokumentacja">
+    <meta name="generator" content="nanoc 3.1.6">
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-21695657-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
+  <body>
+	<div id="page">
+		<div id="header">
+			<div id="logo">
+				<a href="/">
+				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
+				</a>
+			</div>
+			<div class="r">
+			<h1>lua.org.pl</h1>
+			</div>
+		</div>
+		<div id="nav">
+			<ul>
+				<li><a href="/5.1/">Lua 5.1</a></li>
+				<li><a href="/5.2/">Lua 5.2</a></li>
+				<li><a href="/jezyk/">O języku</a></li>
+				<li><a href="/aplikacje/">Aplikacje</a></li>
+				<li><a href="/strona/">Informacje</a></li>
+				<li><a href="http://blog.lua.org.pl">Blog</a></li>
+			</ul>
+		</div>
+		<div id="main">
+		  <p>
+Poniższy tekst <a href="http://www.lua.org/manual/5.1/" target="_blank">podręcznika Lua</a> jest w trakcie tłumaczenia, sugestie i uwagi na ten temat proszę kierować pod adres kontakt at lua.org.pl
+</p>
+<p>
+
+</p>
+<div id="toc">
+<h1>Spis treści</h1>
+<ul style="padding: 0pt;">
+<li><a href="manual.html#1">1. Wprowadzenie</a>
+<p>
+</p></li><li><a href="manual.html#2">2. Język</a>
+<ul>
+<li><a href="manual.html#2.1">2.1. Konwencje językowe</a>
+</li><li><a href="manual.html#2.2">2.2. Wartości i typy</a>
+<ul>
+<li><a href="manual.html#2.2.1">2.2.1. Koercja</a>
+</li></ul>
+</li><li><a href="manual.html#2.3">2.3. Zmienne</a>
+</li><li><a href="manual.html#2.4">2.4. Instrukcje</a>
+<ul>
+<li><a href="manual.html#2.4.1">2.4.1. Fragmenty</a>
+</li><li><a href="manual.html#2.4.2">2.4.2. Bloki</a>
+</li><li><a href="manual.html#2.4.3">2.4.3. Przypisania</a>
+</li><li><a href="manual.html#2.4.4">2.4.4. Instrukcje warunkowe</a>
+</li><li><a href="manual.html#2.4.5">2.4.5. Pętla for</a>
+</li><li><a href="manual.html#2.4.6">2.4.6. Wywołania funkcji jako instrukcje</a>
+</li><li><a href="manual.html#2.4.7">2.4.7. Deklaracje lokalne</a>
+</li></ul>
+</li><li><a href="manual.html#2.5">2.5. Wyrażenia</a>
+<ul>
+<li><a href="manual.html#2.5.1">2.5.1. Operatory arytmetyczne</a>
+</li><li><a href="manual.html#2.5.2">2.5.2. Operatory relacji</a>
+</li><li><a href="manual.html#2.5.3">2.5.3. Operatory logiczne</a>
+</li><li><a href="manual.html#2.5.4">2.5.4. Konkatenacja</a>
+</li><li><a href="manual.html#2.5.5">2.5.5. Operator "Length"</a>
+</li><li><a href="manual.html#2.5.6">2.5.6. Kolejność operatorów</a>
+</li><li><a href="manual.html#2.5.7">2.5.7. Konstruktory tabel</a>
+</li><li><a href="manual.html#2.5.8">2.5.8. Wywołania funkcji</a>
+</li><li><a href="manual.html#2.5.9">2.5.9. Definicje funkcji</a>
+</li></ul>
+</li><li><a href="manual.html#2.6">2.6. Reguły widzialności</a>
+</li><li><a href="manual.html#2.7">2.7. Obsługa błędów</a>
+</li><li><a href="manual.html#2.8">2.8. Metatabele</a>
+</li><li><a href="manual.html#2.9">2.9. Środowiska</a>
+</li><li><a href="manual.html#2.10">2.10. Garbage Collector</a>
+<ul>
+<li><a href="manual.html#2.10.1">2.10.1. Metametody Garbage Collectora</a>
+</li><li><a href="manual.html#2.10.2">2.10.2. Słabe tabele</a>
+</li></ul>
+</li><li><a href="manual.html#2.11">2.11. Współprogramy</a>
+</li></ul>
+<p>
+</p></li><li><a href="manual.html#3">3. Interfejs programistyczny aplikacji</a>
+<ul>
+<li><a href="manual.html#3.1">3.1. Stos</a>
+</li><li><a href="manual.html#3.2">3.2. Rozmiar stosu</a>
+</li><li><a href="manual.html#3.3">3.3. Pseudo wskaźniki</a>
+</li><li><a href="manual.html#3.4">3.4. Domknięcia w C</a>
+</li><li><a href="manual.html#3.5">3.5. Rejestr</a>
+</li><li><a href="manual.html#3.6">3.6. Obsługa błędów w C</a>
+</li><li><a href="manual.html#3.7">3.7. Funkcje i typy</a>
+</li><li><a href="manual.html#3.8">3.8. Interfejs debugowania</a>
+</li></ul>
+<p>
+</p></li><li><a href="manual.html#4">4. Biblioteka zewnętrzna</a>
+<ul>
+<li><a href="manual.html#4.1">4.1. Funkcje i typy</a>
+</li></ul>
+<p>
+</p></li><li><a href="manual.html#5">5. Biblioteki standardowe</a>
+<ul>
+<li><a href="manual.html#5.1">5.1. Funkcje podstawowe</a>
+</li><li><a href="manual.html#5.2">5.2. Operacje na funkcjach współbieżnych</a>
+</li><li><a href="manual.html#5.3">5.3. Moduły</a>
+</li><li><a href="manual.html#5.4">5.4. Operacje na ciągach znaków</a>
+<ul>
+<li><a href="manual.html#5.4.1">5.4.1. Wzorce</a>
+</li></ul>
+</li><li><a href="manual.html#5.5">5.5. Operacje na tabelach</a>
+</li><li><a href="manual.html#5.6">5.6. Funkcje matematyczne</a>
+</li><li><a href="manual.html#5.7">5.7. Funkcje Wejścia i Wyjścia</a>
+</li><li><a href="manual.html#5.8">5.8. Funkcje Systemu Operacyjnego</a>
+</li><li><a href="manual.html#5.9">5.9. Biblioteka "Debug"</a>
+</li></ul>
+<p>
+</p></li><li><a href="manual.html#6">6. Lua samodzielnie</a>
+<p>
+</p></li><li><a href="manual.html#7">7. Rozbieżności względem poprzednich wersji</a>
+<ul>
+<li><a href="manual.html#7.1">7.1. Zmiany w języku</a>
+</li><li><a href="manual.html#7.2">7.2. Zmiany w bibliotekach</a>
+</li><li><a href="manual.html#7.3">7.3. Zmiany w API</a>
+</li></ul>
+<p>
+</p></li><li><a href="manual.html#8">8. Pełna składnia Lua</a>
+</li></ul>
+</div>
+		</div>
+		<div id="footer">
+			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			
+		</div>
+	</div>
+  </body>
+</html>

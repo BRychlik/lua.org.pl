@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Strona główna - lua.org.pl</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
+	<meta name="keywords" content="lua programowanie lua.org.pl index">
+    <meta name="generator" content="nanoc 3.1.6">
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-21695657-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
+  <body>
+	<div id="page">
+		<div id="header">
+			<div id="logo">
+				<a href="/">
+				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
+				</a>
+			</div>
+			<div class="r">
+			<h1>lua.org.pl</h1>
+			</div>
+		</div>
+		<div id="nav">
+			<ul>
+				<li><a href="/5.1/">Lua 5.1</a></li>
+				<li><a href="/5.2/">Lua 5.2</a></li>
+				<li><a href="/jezyk/">O języku</a></li>
+				<li><a href="/aplikacje/">Aplikacje</a></li>
+				<li><a href="/strona/">Informacje</a></li>
+				<li><a href="http://blog.lua.org.pl">Blog</a></li>
+			</ul>
+		</div>
+		<div id="main">
+		  <div id="left-panel" style="width: 500px; float: left; font-size: 12px;">
+<div class="info">
+<h2>Poznaj nowy język programowania</h2>
+<p>Czym jest Lua? <a href="/5.1/" rel="nofollow">Poznaj język.</a></p>
+</div>
+<div class="info">
+<h2>Wypróbuj Lua</h2>
+<p>Możesz łatwo sprawdzić język Lua korzystając z przeglądarki: <a href="http://trylua.org/" target="_blank">trylua.org</a>
+</p>
+</div>
+<div class="info">
+<h2>Lua w rzeczywistych zastosowaniach</h2>
+<p>Wiele firm wykorzystuje język Lua w swoich aplikacjach i produktach by zwiększyć elastyczność. <a href="/aplikacje/" rel="nofollow">Sprawdź listę.</a></p>
+</div>
+<div class="info border-none">
+<h2>Rozszerz aplikacje</h2>
+<p>
+Lua występuje w postaci prostej biblioteki w ANSI C, którą łatwo można dołączyć do tworzonej aplikacji, by zwiększyć 
+możliwości programu.
+</p>
+</div>
+</div>
+<div style="margin-left: 510px; ">
+<script type="text/javascript">
+  google.load("feeds", "1");
+  google.load("jquery","1.5.2");
+  function initialize() {
+  var feed = new google.feeds.Feed("http://feeds.feedburner.com/luaorgpl");
+  feed.load(function(result) {
+    if (!result.error) {
+	  
+		  var container = $("#feed_content");
+		  for (var i = 0; i < result.feed.entries.length; i++) {
+			var entry = result.feed.entries[i];
+			var h2 = $("<h2>");
+			var div = $("<div>");
+			var wiecej = $("<a>");
+			wiecej.attr("href", entry.link);
+			wiecej.html("&nbsp;Więcej...");
+			h2.html(entry.title);
+			div.html(entry.contentSnippet);
+			div.append(wiecej);
+			container.append(h2).append(div);
+			}
+		 $("#feed").slideDown('fast'); 
+      }
+    });
+  }
+  google.setOnLoadCallback(initialize);
+</script>
+<div id="feed" style="display: none;">
+<h1>Najnowsze wieści</h1>
+<div id="feed_content">
+
+</div>
+</div>
+</div>
+		</div>
+		<div id="footer">
+			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			
+		</div>
+	</div>
+  </body>
+</html>

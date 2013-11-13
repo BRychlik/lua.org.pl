@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Historia języka - lua.org.pl</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
+	<meta name="keywords" content="język informacje historia lua implementacje">
+    <meta name="generator" content="nanoc 3.1.6">
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-21695657-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
+  <body>
+	<div id="page">
+		<div id="header">
+			<div id="logo">
+				<a href="/">
+				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
+				</a>
+			</div>
+			<div class="r">
+			<h1>lua.org.pl</h1>
+			</div>
+		</div>
+		<div id="nav">
+			<ul>
+				<li><a href="/5.1/">Lua 5.1</a></li>
+				<li><a href="/5.2/">Lua 5.2</a></li>
+				<li><a href="/jezyk/">O języku</a></li>
+				<li><a href="/aplikacje/">Aplikacje</a></li>
+				<li><a href="/strona/">Informacje</a></li>
+				<li><a href="http://blog.lua.org.pl">Blog</a></li>
+			</ul>
+		</div>
+		<div id="main">
+		  <h2>Język Lua</h2>
+
+<h3>1. <a name="1">Historia powstania</a></h3>
+<p>
+Pierwsze wydanie języka pojawiło się w roku 1993. Język utworzony przez członków Grupy technologii grafiki komputerowej (Tecgraf) na Papieskim Uniwersytecie Katolickim w Rio de Janeiro: Roberto Ierusalimschy, Luiz Henrique de Figueiredo i Waldemar Celes.
+</p>
+<p>
+Główną przyczyną powstania języka to sytuacja w jakiej znajdowała się Brazylia w latach 1977-1992. Ograniczenia importu technologii wymusiły na rynku tworzenie rozwiązań od zera. Tecgraf tworzył w tym czasie rozwiązania informatyczne dla brazylijskich firm, takich jak Petrobras. W tym czasie w Tecgraf utworzono dwa języki: SOL (Simple Object Language) i DEL (Data-Entry Language). Języki te nie posiadały konstrukcji pozwalających na sterowanie wykonaniem programu. Dlatego zdecydowano się wykorzystać ówczesne rozwiązania i wiedzę by stworzyć nowy język programowania pozbawiony tych wad. 
+</p>
+<p>Pierwotna implementacja powstała bardzo szybko i nawet obecnie nie jest bardzo skomplikowana. Po skompilowaniu biblioteka zajmuje kilkanaście kilobajtów. Nazwa języka powstała jako przeciwieństwo do nazwy języka SOL, gdyż "sol" to po portugalsku Słońce, a "lua" to Księżyc. Z tego powodu logo języka to Księżyc z wyraźnie zaznaczoną orbitą okrążający Ziemię.
+</p>
+<h3>2. <a name="2">Zapożyczenia z innych języków</a></h3>
+<p>
+Konstruktory obiektów w Lua przypominają składnię opisu danych z języka SOL. Składnia struktur kontrolnych pochodzi z języka Modula, a wielokrotne przypisania i wielokrotne wartości zwracane z funkcji pochodzą z języka CLU. Obecnie języka oparty jest głównie na Scheme, dlatego Lua zalicza się do języków funkcyjnych (funkcje anonimowe, zakresy widoczności), mimo iż nie jest to wyraźnie widoczne. Wiele innych języków miało wpływ na kształt języka, można tu wymienić CLU, AWK, SNOBOL, Lisp oraz C++.
+</p>
+<h3>3. <a name="3">Instalacja</a></h3>
+<h4>3.1. <a name="3.1">Windows</a></h4>
+<p>
+Wersja Lua pod Windows w postaci instalatora znajduje się pod adresem <a href="http://code.google.com/p/luaforwindows/">http://code.google.com/p/luaforwindows/</a>. 
+</p>
+<h4>3.2. <a name="3.2">Linux (Ubuntu)</a></h4>
+<p>
+W systemach opartych o GNU/Linux można skompilować Lua ze źródeł, lub wykorzystać dostarczone pakiety. Tak jak w przypadku Ubuntu należy skorzystać z narzędzia <code>apt-get</code>.
+</p>
+<pre>
+	sudo apt-get install lua50
+	
+</pre>
+<h3>4. <a name="4">Implementacje</a></h3>
+<p>
+Główną, wzorcową implementacją języka jest ta, napisana przez twórców języka. Mimo to powstało wiele innych, zrealizowanych na różnych platformach.
+</p>
+<ul>
+	<li><a href="http://luajit.org">LuaJIT</a></li>
+	<li><a href="http://code.google.com/p/llvm-lua/">LLVM-Lua</a></li>
+	<li><a href="http://code.google.com/p/luaclr/">LuaCLR</a></li>
+	<li><a href="http://www.codeplex.com/Nua">Nua</a></li>
+	<li><a href="http://code.google.com/p/lua-alchemy/">Lua Alchemy</a></li>
+	<li><a href="http://www.eluaproject.net/">eLua</a> - Embedded Lua</li>
+	<li><a href="http://ironlua.codeplex.com">IronLua</a></li>
+</ul>
+<h3>5. <a name="5">Bibliografia</a></h3>
+<ul>
+<li><a href="http://www.computerworld.com.au/article/260022/a-z_programming_languages_lua/?fp=4194304&fpid=1">Wywiad z prof. Roberto Ierusalimschy</a></li>
+<li><a href="http://www.lua.org/history.html">Historia powstania języka do roku 2001</a></li>
+</ul>
+		</div>
+		<div id="footer">
+			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			
+		</div>
+	</div>
+  </body>
+</html>

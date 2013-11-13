@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Dokumentacja Lua 5.2 - lua.org.pl</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
+	<meta name="keywords" content="lua programowanie lua.org.pl index dokumentacja">
+    <meta name="generator" content="nanoc 3.1.6">
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-21695657-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
+  <body>
+	<div id="page">
+		<div id="header">
+			<div id="logo">
+				<a href="/">
+				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
+				</a>
+			</div>
+			<div class="r">
+			<h1>lua.org.pl</h1>
+			</div>
+		</div>
+		<div id="nav">
+			<ul>
+				<li><a href="/5.1/">Lua 5.1</a></li>
+				<li><a href="/5.2/">Lua 5.2</a></li>
+				<li><a href="/jezyk/">O języku</a></li>
+				<li><a href="/aplikacje/">Aplikacje</a></li>
+				<li><a href="/strona/">Informacje</a></li>
+				<li><a href="http://blog.lua.org.pl">Blog</a></li>
+			</ul>
+		</div>
+		<div id="main">
+		  <h1 id="1">1. Wprowadzenie</h1>
+<p>
+Lua jest językiem rozszerzającym, zaprojektowanym by zapewnić możliwość normalnego programowania proceduralnego wraz
+z opisem danych. Język ten oferuje również wsparcie dla programowania obiektowo zorientowanego, programowania funkcjonalnego oraz programowania sterowanego danymi (data driven programming). Głównym zastosowaniem Lua jest użycie jako wszechstronnego lekkiego języka skryptowego. Lua został napisany jako biblioteka w czystym C (ANSI C i&nbsp; C++).
+</p>
+<p>
+Będąc językiem rozszerzeń, w Lua nie istnieje pojęcie "programu głównego" (main); program uruchamiany jest wewnątrz programu gospodarza. Program gospodarz może wywoływać funkcje by uruchomić fragmenty programu napisanego w Lua, może zapisywać i odczytywać zmienne Lua oraz może dołączać funkcje napisane w C by mogły być uruchamiane wewnątrz programów Lua. Poprzez użycie funkcji napisanych w C, Lua otrzymuje wsparcie w rozwiązywaniu szerokiej gamy problemów, tworząc specyficzne języki. Dystrybucja Lua zawiera przykładowy program hosta nazwany <code>lua</code>, który korzysta z biblioteki Lua, oferując kompletny i samodzielny interpreter Lua.
+</p>
+<p>
+Lua jest wolnym oprogramowaniem, udostępnianym oczywiście bez żadnych gwarancji, o czym świadczy licencja. Implementacja opisana w tym podręczniku jest dostępna na oficjalnej stronie Lua: www.lua.org.
+</p>
+<p>
+Jak w każdym podręczniku, tak i tu nie opisujemy pewnych niuansów. Dyskusja szczegółów dotyczących projektowania języka Lua została opisana w dokumentach dostępnych na stronie Lua. Szczegółowe wprowadzenie do programowania w Lua zawarte jest w książce Roberto "Programming in Lua".
+</p>
+<h1 id="2">2. Podstawy</h1>
+<p>W tym rozdziale opisane są podstawowe założenia języka.</p>
+<h2 id="2.1">2.1. Wartości i typy</h2>
+<p>
+Lua jest <em>językiem dynamicznych typów</em>. Oznacza to że zmienna nie posiada konkretnego typu, jedynie wartość określana jest przez typ. Nie występuje definicja typu w języku. Każda wartość posiada swój własny typ.
+</p>
+<p>
+Wszystkie wartości w Lua są <em>wartościami pierwszej klasy</em>. Oznacza to, że wartości mogą być przechowywane w zmiennych, przekazywane w parametrach do innych funkcji, oraz zwracane jako wynik funkcji.
+</p>
+<p>
+Występuje osiem podstawowych typów w Lua: <em>nil (wartość pusta)</em>,
+<em>boolean</em>,
+<em>number (liczba)</em>,
+<em>string (ciąg znaków)</em>,
+<em>function (funkcja)</em>,
+<em>userdata (dane użytkownika)</em>,
+<em>thread (wątek)</em> i
+<em>table (tabela)</em>
+</p>
+
+<p><em>Nil</em> jest typem dla wartości <strong>nil</strong>, której głównym zadaniem bycie innym od reszty wartości, zazwyczaj reprezentuje brak użytecznej wartości. <em>Boolean</em> jest typem wartości <strong>false</strong> i <strong>true</strong>. Wartości <strong>nil</strong> i <strong>false</strong> powodują iż warunek jest fałszywy, każda inna wartość jest prawdziwa. <em>Number</em> przedstawia liczbę rzeczywistą (liczbę zmiennoprzecinkową podwójnej precyzji). 
+Operacje na liczbach wykonywane są zgodnie z implementacją w języku C, która jest zwykle zgodna z normą IEEE 754.
+Mimo to jest możliwe skompilowanie interpretera Lua tak aby korzystał z innych reprezentacji liczbowych, takich jak liczby zmiennoprzecinkowe pojedynczej precyzji, liczby całkowite 64-bitowe - więcej w pliku <code>luaconf.h</code>. <em>String</em> opisuje niezmienne sekwencje bajtów. Ciągi znaków w Lua mogą zawierać dowolny znak 8-bitowy, łącznie z \0.
+</p>
+<h1 id="8">8. Rozbieżności z poprzednią wersją</h1>
+<p>
+Poniżej znajduje się lista rozbieżności, które można napotkać przy przenoszeniu programu z Lua 5.1 do Lua 5.2. Część z nich można uniknąć kompilując Lua z odpowiednimi opcjami (więcej w pliku <code>luaconf.h</code>). Jednakże, wszystkie te opcje zostaną usunięte w kolejnej wersji Lua.
+</p>
+<h2 id="8.1">8.1. Zmiany w języku</h2>
+<ul>
+<li>
+Zmieniła się idea dotycząca <em>środowisk</em>. Jedynie funkcje Lua, posiadają środowiska. By ustawić środowisko funkcji Lua, należy użyć zmienną <code>_ENV</code> lub funkcję <code><a href="#pdf-load">load</a></code>.
+<p>Funckje w C nie posiadają już środowisk. Należy użyć wolnej zmiennej ze współdzieloną tabelą jeżeli jest to konieczne by przechowywać współdzielony stan dla kilku funkcji w C. (Można wykorzystać funkcję <code><a href="#luaL_setfuncs">luaL_setfuncs</a></code> by otworzyć bibliotekę w C z wszystkimi funkcjami dzielącymi wspólną wolną zmienną.)
+</p>
+<p>
+By manipulować "środowiskiem" userdata (nazywanych teraz user value), należy wykorzystać nowe funkcje <code><a href="#lua_getuservalue">lua_getuservalue</a></code> i <code><a href="#lua_setuservalue">lua_setuservalue</a></code>.
+</p>
+</li>
+<li>Identyfikatory Lua nie mogą składać się ze znaków zależnych od lokalizacji.</li>
+<li>Krok lub pełne zbieranie w garbage collectorze nie powoduje restartu collectora jeżeli doszło do jego zatrzymania.</li>
+<li>
+Słabe tabele ze słabymi kluczami teraz zachowują się jak <em>tabele efemeryczne</em>.
+</li>
+<li>
+Zdarzenie <em>tail return</em> w uchwytach debugera zostało usunięte. Zamiast tego, wywołanie ogonowe generuje nowe, specjalne zdarzenie, <em>tail call</em>, gdzie debuger jest informowany o braku odpowiadającego zdarzenia powrotnego.
+</li>
+<li>
+Sprawdzanie równości między wartościami funkcji uległo zmianie. Od teraz defnicja funkcji może nie wygenerować nowej wartości; może użyć wcześniej utworzone wartości jeżeli nie ma wyraźnej różnicny dla nowej funkcji.
+</li>
+</ul>
+<h2 id="8.2">8.2. Zmiany w bibliotekach</h2>
+<ul>
+<li>Funkcja <code>module</code> jest przestarzała. Przy pomocy normalnego kodu Lua możliwe jest utworzenie modułu. Moduły nie powinny ustawiać zmiennych globalnych.</li>
+<li>Funkcje <code>setenv</code> i <code>getenv</code> zostały usunięte, z powodu zmian w środowiskach.</li>
+<li>Funkcja <code>math.log10</code> jest przestarzała. Należy używać <code><a href="#pdf-math.log">math.log</a></code> z 10 jako drugim parametrem.</li>
+<li>Funkcja <code>loadstring</code> jest przestarzała. Zamiast niej należy używać funkcji <code>load</code>; funkcja ta akceptuje ciągi znaków jako argumenty dokładnie jak <code>loadstring</code>.</li>
+<li>Funkcja <code>table.maxn</code> jest przestarzała. Należy napisać ją w Lua jeżeli jest potrzebna.</li>
+<li>Funkcja <code>os.execute</code> zwraca <strong>true</strong> jeżeli poleceie zakończy się sukcesem i <strong>nil</strong> wraz z informacją o błędzie w przeciwnym wypadku.</li>
+<li>Funkcja <code>unpack</code> została przeniesiona do biblioteki tabel i musi być wywoływana jako <code><a href="#pdf-table.unpack">table.unpack</a></code>.</li>
+<li>Klasa znaków <code>%z</code> w wzorcach jest przestarzała, od teraz wzorce mogą zawierać <code>'\0'</code> jako normalny znak.</li>
+<li>Tabela <code>package.loaders</code> otrzymała nową nazwę <code>package.searchers</code>.</li>
+<li>Lua nie posiada już weryfikacji kodu bajtowego. Wszystkie funkcje które ładują kod, (<code><a href="#pdf-load">load</a></code> i <code><a href="#pdf-loadfile">loadfile</a></code></li>) są potencjalnie niebezpieczne podczas ładowania nieznanego kodu binarnego. (Funkcje te były wcześniej niebezpieczne z powodu luki w algorytmie weryfikacyjnym.) W razie wątpliwości należy skorzystać z argumentu <code>mode</code> tych funkcji, by ograniczyć je do ładowania tylko tekstowych fragmentów kodu.</li>
+<li>
+Standardowe ścieżki w oficjalnej dystrybucji moga się zmieniać między kolejnymi wersjami.
+</li>
+</ul>
+<h2 id="8.3">8.3. Zmiany w API</h2>
+<ul>
+<li>
+Pseudoindeks <code>LUA_GLOBALSINDEX</code> został usunięnty. Globalne środowisko należy pobrać z rejesru (<a href="#4.5">4.5</a>).
+</li>
+<li>
+Pseudoindeks <code>LUA_ENVIRONINDEX</code> i funkcje <code>lua_getenv/lua_setenv</code> zostały usunięte, ponieważ funkcje w C nie mają już środowisk.
+</li>
+<li>
+Funkcja <code>luaL_register</code> jest przestarzała. Należy korzystać z funkcji <code><a href="#luaL_setfuncs">luaL_setfuncs</a></code>, gdyż moduł nie utworzy zmiennych globalnych. (Ustawianie zmiennych globalnych przez moduły  nie jest spodziewanym zachowaniem.)
+</li>
+<li>
+Parametr <code>osize</code> funkcji alokacji nie może być zerowy podczas tworzenia nowego bloku, oznacza to że <code>ptr</code> jest <code>NULL</code> (<code><a href="#lua_Alloc">lua_Alloc</a></code>). Aby sprawdzić czy blok jest nowy należy sprawdzić <code>ptr==NULL</code>.
+</li>
+<li>
+Finalizatory (metametody <code>__gc</code>) dla danych użytkownika są wywoływane w odwrotnej kolejności niż były oznaczone do finalizacji, a nie w kolejności utworzenia (<a href="#2.5.1">2.5.1</a>). Większość obiektów userdata jest oznaczana zaraz po utworzeniu. Ponadto, jeżeli podczas tworzenia metatabela nie posiada pola <code>__gc</code>, finalizator nie zostanie wywołany, nawet jeżeli pole to zosranie ustawione później.
+</li>
+<li>
+Funkcja <code>luaL_typerror</code> została usunięta. W razie potrzeby należy taką funkcję napisać.
+</li>
+<li>
+Funkcja <code>lua_cpcall</code> jest przestarzała. Można łatwo umieścić nową funkcję przy pomocy <code><a href="#lua_pushfunction">lua_pushfunction</a></code> i wywołać ją przy pomocy <code><a href="#lua_pcall">lua_pcall</a></code>.
+</li>
+<li>Funkcje <code>lua_equal</code> i <code>lua_lessthan</code> są przestarzałe. Zamiast nich należy użyć nowej funkcji <code><a href="#lua_compare">lua_compare</a></code> korzystając z odpowiednich opcji.</li>
+<li>Funkcja <code>lua_objlen</code> nazywa się <code><a href="#lua_rawlen">lua_rawlen</a></code></li>
+<li>Funkcja <code><a href="#lua_load">lua_load</a></code> posiada dodatkowy parametr, <code>mode</code>. Należy przkeazać <code>NULL</code> by symulować poprzednie zachowanie.</li>
+<li>Funkcja <code><a href="#lua_resume">lua_resume</a></code> posiada dodatkowy paramter <code>from</code>. Należy przekazać <code>NULL</code> lub wątek podczas wywołania.</li>
+</ul>
+<h1 id="9">9. Kompletna składnia Lua</h1>
+<p>Poniżej znajduje się kompletna składnia Lua w rozszerzonym BNF. (Opis ten nie zawiera kolejności operatorów)</p>
+<pre>
+	chunk ::= block
+
+	block ::= {stat} [retstat]
+
+	stat ::=  ‘;’ | 
+		 varlist ‘=’ explist | 
+		 functioncall | 
+		 label | 
+		 break | 
+		 goto Name | 
+		 do block end | 
+		 while exp do block end | 
+		 repeat block until exp | 
+		 if exp then block {elseif exp then block} [else block] end | 
+		 for Name ‘=’ exp ‘,’ exp [‘,’ exp] do block end | 
+		 for namelist in explist do block end | 
+		 function funcname funcbody | 
+		 local function Name funcbody | 
+		 local namelist [‘=’ explist] 
+
+	retstat ::= return [explist] [‘;’]
+
+	label ::= ‘::’ Name ‘::’
+
+	funcname ::= Name {‘.’ Name} [‘:’ Name]
+
+	varlist ::= var {‘,’ var}
+
+	var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name 
+
+	namelist ::= Name {‘,’ Name}
+
+	explist ::= exp {‘,’ exp}
+
+	exp ::=  nil | false | true | Number | String | ‘...’ | functiondef | 
+		 prefixexp | tableconstructor | exp binop exp | unop exp 
+
+	prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+
+	functioncall ::=  prefixexp args | prefixexp ‘:’ Name args 
+
+	args ::=  ‘(’ [explist] ‘)’ | tableconstructor | String 
+
+	functiondef ::= function funcbody
+
+	funcbody ::= ‘(’ [parlist] ‘)’ block end
+
+	parlist ::= namelist [‘,’ ‘...’] | ‘...’
+
+	tableconstructor ::= ‘{’ [fieldlist] ‘}’
+
+	fieldlist ::= field {fieldsep field} [fieldsep]
+
+	field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
+
+	fieldsep ::= ‘,’ | ‘;’
+
+	binop ::= ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘^’ | ‘%’ | ‘..’ | 
+		 ‘<’ | ‘<=’ | ‘>’ | ‘>=’ | ‘==’ | ‘~=’ | 
+		 and | or
+
+	unop ::= ‘-’ | not | ‘#’
+</pre>
+		</div>
+		<div id="footer">
+			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			
+		</div>
+	</div>
+  </body>
+</html>
