@@ -1214,24 +1214,52 @@ Dla wygody, większość operacji zapytań w API nie trzyma się dokładnie zasa
 Podczas interakcji z API Lua, należy być konsekwentnym. W szczególności, <em>należy kontrolować przepełnienie stosu</em>. Do zwiększenia rozmiaru stosu używa się funkcji <a href="#lua_checkstack"><code>lua_checkstack</code></a>.
 </p>
 <p>
-Gdy Lua wywołuje kod w C, sprawdza czy przynajmniej dostępnych jest <code>LUA_MINSTACK</code> miejsc na stosie. <code>LUA_MINSTACK</code> posiada wartość 20, w większości przypadków, nie należy się martwić o miejsce na stosie, do momentu gdy tworzony kod nie posiada pętli umieszczających elementów na stosie.
+Gdy Lua wywołuje kod w C, sprawdza czy przynajmniej dostępnę jest <code>LUA_MINSTACK</code> miejsc na stosie. Domyślnie <code>LUA_MINSTACK</code> posiada wartość 20, w większości przypadków, nie należy się martwić o miejsce na stosie, do momentu gdy tworzony kod nie posiada pętli umieszczających elementów na stosie.
 </p>
 <p>
-Większość funkcji zapytań, przyjmuje wskaźniki jako dowolną wartość wewnątrz dostępnej przestrzeni stosu, czyli wskaźniki są do maksymalnego rozmiaru stosu ustawionego przez <a href="#lua_checkstack"><code>lua_checkstack</code></a>. Takie wskaźniki nazywane są <em>wskaźnikami dopuszczalnymi</em>. Definiuje się je w następujący sposób:
+Większość funkcji zapytań, przyjmuje wskaźniki jako dowolną wartość wewnątrz dostępnej przestrzeni stosu, czyli wskaźniki znajdują się na stosie do maksymalnego rozmiaru stosu ustawionego przez <a href="#lua_checkstack"><code>lua_checkstack</code></a>. Takie wskaźniki nazywane są <em>wskaźnikami dopuszczalnymi</em>. Definiuje się je w następujący sposób:
 </p>
 <pre>
      (index < 0 && abs(index) <= top) ||
      (index > 0 && index <= stackspace)
 </pre>
+<p>
+Należy zaznaczyć, że 0 nie jest nigdy dozwoloną wartością dla indeksu.
+</p>
 <h2>3.3. <a id="3.3">Pseudo wskaźniki</a></h2>
-
-
+<p>
+Gdy nie zaznaczono inaczej, dowolna funkcja która akceptuje ważne wskaźniki, może także być wywołana z <em>pseudo wskaźnikami</em>, które reprezentują wartości Lua, które są dostępne w kodzie C, ale których nie ma na stosie. Pseudo wskaźniki są używane by dostać się do środowiska wątku, środowiska funkcji, rejestru oraz zmienne przypisane do (ang. upvalues) funkcji w C (więcej w <a href="#3.4">3.4</a>).
+</p>
+<p>
+Środowisko wątku (gdzie znajdują się zmienne globalne) jest zawsze dostępne pod pseudo indeksem <code>LUA_GLOBALSINDEX</code>. Natomiast środowisko działającej funkcji C jest dostępne jako pseudo index <code>LUA_ENVIRONINDEX</code>.
+</p>
+<p>
+Aby dostać się i zmienić zmienne globalne w tabeli środowiska, można wykorzystać zwykłe funkcje operacji na tabelach. Dla przykładu, aby dostać się do wartości zmiennej globalnej:
+</p>
+<pre>
+	lua_getfield(L, LUA_GLOBALSINDEX, varname);
+</pre>
 <h2>3.4. <a id="3.4">Domknięcia w C</a></h2>
-
+<p>
+Gdy tworzona jest funkcja C, możliwe jest przypisanie jej pewnych wartości, powstaje wtedy <em>domknięcie C</em> (ang. closure); wartości te nazywane są zmienne przypisane (ang. upvalues) i są dostępne w funkcji kiedykolwiek funkcja jest wywoływana (więcej w <a href="#lua_pushcclosure"></a>lua_pushcclosure</a>).
+</p>
+<p>Gdy funkcja w C jest wywoływana, jej przypisane wartości są umieszczone w miejscu wskazywanym przez pseudo wskaźniki. Pseudo wskaźniki są tworzone przez makro <code>lua_upvalueindex</code>. Pierwsza wartości przypisana do funkcji dostępna jest na pozycji <code>lua_upvalueindex(1)</code>. Dostęp do <code>lua_upvalueindex(n)</code>, gdzie <code>n</code> jest większe niż liczba wartości przypisanych w funkcji (ale nie większa niż 256), spowoduje powstanie akceptowalnego (ale nieważnego) indeksu.
+</p>
 <h2>3.5. <a id="3.5">Rejestr</a></h2>
-
+<p>
+Lua udostępnia <em>rejestr</em>, predefiniowaną tabelę, która może być używana w kodzie C do przechowywania dowolnej wartości Lua. Tabela ta jest zawsze dostępna pod pseudo indeksem <code>LUA_REGISTRYINDEX</code>. Dowolna biblioteka C może przechowywać swoje dane, ale musi ostrożnie dobierać klucze od tych używanych przez inne biblioteki, by nie doszło do kolizji. Zwyczajowo, należy używać kluczy zawierających nazwę biblioteki, lub lekkich danych użytkownika (ang. userdata) z adresem obiektu C w kodzie.
+</p>
+<p>
+Klucze całkowitoliczbowe w rejestrze są używane przez mechanizm referencji, implementowany przez bibliotekę zewnętrzną i nie powinny być używane do innych celów.
+</p>
 <h2>3.6. <a id="3.6">Przechwytywanie błędów w C</a></h2>
-
+<p>
+Wewnętrznie, Lua wykorzystuje mechanizm <code>longjump</code> z języka C do obsługi błędów. (Można także korzystać z wyjątków jeżeli korzysta się z C++; więcej w <code>luaconf.h</code>) Gdy w kodzie Lua dojdzie do błędu (takiego jak alokacja pamięci, błędy typów, błędy składnikowe i błędy podczas wykonywania) to powstaje błąd, który powoduje długi skok (ang. long jump). <em>Chronione środowisko</em> używa <code>setjmp</code> do ustawienia punktu ratunkowego; jakikolwiek błąd powoduje skok do ostatniego aktywnego punktu.
+</p>
+<p>
+Większość funkcji w API może wyrzucić błąd, na przykład z powodu alokacji pamięci. Dokumentacja każdej funkcji wskazuje czy dana funkcja może wyrzucić błąd.
+</p>
+<p>Wewnątrz funkcji C można spowodować wyrzucenie błędu przez wywołanie funkcji <code><a href="#lua_error">lua_error</a></code>.</p>
 <h2>3.7. <a id="3.7">Funkcje i typy</a></h2>
 
 <h2>3.8. <a id="3.8">Interfejs debugowania</a></h2>
@@ -1414,7 +1442,7 @@ Poniżej znajduje się pełna składnia Lua podana w rozszerzonym BNF. Opis nie 
 </pre>
 		</div>
 		<div id="footer">
-			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
+			<p>Ostatnia modyfikacja 2014-08-01T12:52:25+02:00</p>
 			
 		</div>
 	</div>
