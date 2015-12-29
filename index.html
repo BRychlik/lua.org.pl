@@ -1,55 +1,18 @@
-<!DOCTYPE HTML>
-<html lang="pl">
-  <head>
-    <meta charset="utf-8">
-    <title>Strona główna - lua.org.pl</title>
-	<link rel="stylesheet" type="text/css" href="/style.css" media="screen" title="Domyślny">
-	<script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w" type="text/javascript"></script>
-	<meta name="keywords" content="lua programowanie lua.org.pl index">
-    <meta name="generator" content="nanoc 3.1.6">
-	<script type="text/javascript">
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-21695657-1']);
-	  _gaq.push(['_trackPageview']);
+---
+layout: default
+title: Strona główna
+keywords: lua programowanie lua.org.pl index
+---
 
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	</script>
-  </head>
-  <body>
-	<div id="page">
-		<div id="header">
-			<div id="logo">
-				<a href="/">
-				<img src="/logo/lua150.png" width="150" height="150" alt="Lua logo" />
-				</a>
-			</div>
-			<div class="r">
-			<h1>lua.org.pl</h1>
-			</div>
-		</div>
-		<div id="nav">
-			<ul>
-				<li><a href="/5.1/">Lua 5.1</a></li>
-				<li><a href="/5.2/">Lua 5.2</a></li>
-				<li><a href="/jezyk/">O języku</a></li>
-				<li><a href="/aplikacje/">Aplikacje</a></li>
-				<li><a href="/strona/">Informacje</a></li>
-				<li><a href="http://blog.lua.org.pl">Blog</a></li>
-			</ul>
-		</div>
-		<div id="main">
-		  <div id="left-panel" style="width: 500px; float: left; font-size: 12px;">
+<div class="row">
+<div class="col-md-6">
 <div class="info">
 <h2>Poznaj nowy język programowania</h2>
 <p>Czym jest Lua? <a href="/5.1/" rel="nofollow">Poznaj język.</a></p>
 </div>
 <div class="info">
 <h2>Wypróbuj Lua</h2>
-<p>Możesz łatwo sprawdzić język Lua korzystając z przeglądarki: <a href="http://trylua.org/" target="_blank">trylua.org</a>
+<p>Możesz łatwo sprawdzić język Lua korzystając z przeglądarki: <a href="http://www.lua.org/cgi-bin/demo" target="_blank">http://www.lua.org/cgi-bin/demo</a>
 </p>
 </div>
 <div class="info">
@@ -64,46 +27,48 @@ możliwości programu.
 </p>
 </div>
 </div>
-<div style="margin-left: 510px; ">
+
+<div class="col-md-6">
+
+<div id="feed" class="panel panel-primary" style="display: none; margin-top:15px;">
+<div class="panel-heading">
+<h1 class="panel-title">Newsy</h1>
+</div>
+<div id="feed_content" class="list-group">
+</div>
 <script type="text/javascript">
+
   google.load("feeds", "1");
-  google.load("jquery","1.5.2");
   function initialize() {
   var feed = new google.feeds.Feed("http://feeds.feedburner.com/luaorgpl");
   feed.load(function(result) {
     if (!result.error) {
-	  
 		  var container = $("#feed_content");
+
+          //div.attr("class", "list-group");
 		  for (var i = 0; i < result.feed.entries.length; i++) {
 			var entry = result.feed.entries[i];
-			var h2 = $("<h2>");
-			var div = $("<div>");
+			var h2 = $("<h3>");
 			var wiecej = $("<a>");
+            var ptext = $("<p>");
+            wiecej.attr("class", "list-group-item");
 			wiecej.attr("href", entry.link);
-			wiecej.html("&nbsp;Więcej...");
 			h2.html(entry.title);
-			div.html(entry.contentSnippet);
-			div.append(wiecej);
-			container.append(h2).append(div);
-			}
+            h2.attr("class", "list-group-item-heading");
+            wiecej.append(h2);
+            ptext.attr("class", "list-group-item-text");
+            ptext.html(entry.contentSnippet);
+            wiecej.append(ptext);
+            container.append(wiecej);
+		}
+            
 		 $("#feed").slideDown('fast'); 
       }
     });
   }
   google.setOnLoadCallback(initialize);
-</script>
-<div id="feed" style="display: none;">
-<h1>Najnowsze wieści</h1>
-<div id="feed_content">
 
+</script>
 </div>
 </div>
 </div>
-		</div>
-		<div id="footer">
-			<p>Ostatnia modyfikacja 2013-11-11T22:05:51+01:00</p>
-			
-		</div>
-	</div>
-  </body>
-</html>

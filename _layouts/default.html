@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} - lua.org.pl</title>
+    <meta type="keywords" content="{{ page.keywords }}">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/anchor.min.js"></script>
+
+    <script src="https://www.google.com/jsapi?key=ABQIAAAAqPGUAEHT7NwC6N0xT-gfHRR-zxV8CrNyzzfprP1gHTYfbcWqXRSjI-nyo2hSG_w6KZTX8lPfhT3H3w"
+    type="text/javascript"></script>
+
+    {% include ga.html %}
+    
+</head>
+
+<body>
+    <header class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">lua.org.pl</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/5.1/">Lua 5.1</a></li>
+                    <li><a href="/5.2/">Lua 5.2</a></li>
+                    <li><a href="/jezyk/">O języku</a></li>
+                    <li><a href="/aplikacje/">Aplikacje</a></li>
+                    <li><a href="/strona/">Informacje</a></li>
+                    <li><a href="http://blog.lua.org.pl">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container theme-container">
+        {{ content }}
+    </div>
+    <footer class="footer-line">
+        <div class="container">
+            <p>Ostatnia modyfikacja {{ site.["date""] }}</p>
+        </div>
+    </footer>
+    <script>
+        anchors.options = {
+        placement: 'right',
+        visible: 'hover'
+        };
+        anchors.add('.anchored h1, .anchored h2, .anchored h3, .anchored h4');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+- name: LÖVE
+  url: http://love2d.org/
+  desc: Silnik gier 2D oparty o Lua. Umożliwia pisanie gier 2D, wykorzystuje popularne biblioteki grafiki i dźwięku. Gry mogą być uruchamiane na wielu platformach systemowych.
+  
+- name: Mongrel 2
+  url: http://mongrel2.org/
+  desc: Serwer www, który umożliwia uruchamianie aplikacji napisanych w wielu językach i frameworkach, a także w Lua.
+
+- name: MySQL Proxy
+  url: http://downloads.mysql.com/archives/proxy/
+  desc: Serwer proxy umożliwiający modyfikowanie zapytań SQL przy pomocy Lua. (Projekt nie rozwijany)
+  
+- name: MySql Workbench
+  url: http://mysql.com/products/workbench/
+  desc: Narzędzia zarządzania bazami danych MySql. Lua wykorzystywana do pisania rozszerzeń.
+
+- name: nmap
+  url: http://nmap.org
+  desc: Zaawansowany skaner sieciowy.
+
+- name: Polycode
+  url: http://polycode.org
+  desc: Framework 3D umożliwiający tworzenie wizualizacji oraz gier. Możliwość pisania w C++ oraz w Lua.
+  
+- name: SciTE
+  url: http://www.scintilla.org/SciTE.html
+  desc: Edytor tekstu, dostępny na wielu platformach.
+  
+- name: VLC Player
+  url: http://www.videolan.org/vlc/
+  desc: Odtwarzacz multimediów.
+
+- name: Vim
+  url: http://vim.sourceforge.net/
+  desc: Edytor tekstu oparty o vi.

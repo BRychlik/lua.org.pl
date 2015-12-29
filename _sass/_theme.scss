@@ -1,0 +1,26 @@
+
+body{
+    padding-top: 50px;
+}
+
+#toc ul
+{
+	list-style: none;
+}
+
+.footer-line
+{
+	border-top: solid 1px #E6E6E6;
+}
+
+.info h2
+{
+    font-size: 24px;
+}
+
+:target:before {
+  content:"";
+  display:block;
+  height:60px; /* fixed header height*/
+  margin:-60px 0 0; /* negative fixed header height */
+}
