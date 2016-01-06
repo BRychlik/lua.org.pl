@@ -32,12 +32,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/5.1/">Lua 5.1</a></li>
-                    <li><a href="/5.2/">Lua 5.2</a></li>
-                    <li><a href="/jezyk/">O języku</a></li>
-                    <li><a href="/aplikacje/">Aplikacje</a></li>
-                    <li><a href="/strona/">Informacje</a></li>
-                    <li><a href="http://blog.lua.org.pl">Blog</a></li>
+                    {% for item in site.data.menu do %}
+                        <li {% if page.url == item.Url %}class="active"{% endif %}><a href="{{ item.Url }}">{{ item.Name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -53,7 +50,7 @@
     <script>
         anchors.options = {
         placement: 'right',
-        visible: 'hover'
+        visible: 'always'
         };
         anchors.add('.anchored h1, .anchored h2, .anchored h3, .anchored h4');
     </script>

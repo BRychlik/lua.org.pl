@@ -8,6 +8,11 @@ body{
 	list-style: none;
 }
 
+#toc li
+{
+    margin-top: 8px;  
+}
+
 .footer-line
 {
 	border-top: solid 1px #E6E6E6;
@@ -23,4 +28,9 @@ body{
   display:block;
   height:60px; /* fixed header height*/
   margin:-60px 0 0; /* negative fixed header height */
+}
+
+.anchorjs-link:hover {
+  color: #2500AD;
+  text-decoration: none;
 }

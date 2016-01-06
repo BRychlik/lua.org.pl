@@ -1,0 +1,17 @@
+- Name: Lua 5.1
+  Url: /5.1/
+
+- Name: Lua 5.2
+  Url: /5.2/
+  
+- Name: O języku
+  Url: /jezyk/
+  
+- Name: Aplikacje
+  Url: /aplikacje/
+  
+- Name: Informacje
+  Url: /strona/
+  
+- Name: Blog
+  Url: http://blog.lua.org.pl/

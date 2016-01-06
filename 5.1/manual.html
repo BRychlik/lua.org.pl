@@ -1231,7 +1231,19 @@ Większość funkcji w API może wyrzucić błąd, na przykład z powodu alokacj
 <h2 id="3.8">3.8. Interfejs debugowania</h2>
 
 <h1 id="4">4. Biblioteka zewnętrzna</h1>
-
+<p>
+<em>Biblioteka zewnętrzna</em> udostępnia kilka wygodnych funkcji pozwalających na interakcje C z Lua. 
+Podstawowe API udostępnia prymitywne funkcje dla wszytkich interakcji pomiędzy C i Lua, natomiast biblioteka zewnętrzna pozwala na wykorzystanie funkcji wyższego poziomu do prostych zadań.
+</p>
+<p>
+Wszystkie funkcje z biblioteki zewnętrznej są zdefiniowane w pliku <code>lauzlib.h</code> i posiadają prefiks <code>luaL_</code>.     
+</p>
+<p>
+Wszystkie funkcje w bibliotece zewnętrznej są zbudowane na bazie podstawowego API, więc nie umożliwiają niczego, czego nie można zrealizować przy pomocy API.    
+</p>
+<p>
+Kilka funkcji w bibliotece zewnętrznej jest wykorzystywanych do sprawdzania argumentów funkcji w C. Ich nazwy zawsze zaczynają się od <code>luaL_check*</code> lub <code>luaL_opt*</code>. Wszystkie te funkcje powodują zwrócenie błedu jeżeli sprawdzenie nie powiedzie się. Komunikat błędu jest formatowany z uwzględnieniem argumentów (np. <code>"bad argument #1"</code>), nie powinno się używać tych funkcji dla innych wartości stosu. 
+</p>
 <h2 id="4.1">4.1. Funkcje i typy</h2>
 
 <h1 id="5">5. Biblioteki standardowe</h1>
