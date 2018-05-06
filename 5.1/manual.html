@@ -1254,6 +1254,64 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 
 </p>
 <h2 id="5.1">5.1. Funkcje podstawowe</h2>
+<p>Podstawowa biblioteka wprowadza elementarne funkcje w Lua. Jeżeli nie zostanie ona dołączona do aplikacji, należy ostrożnie sprawdzić czy nie będzie konieczne wprowadznie własnej implementacji dla tych rozwiązań.</p>
+<h3>assert (v [, message])</h3>
+
+<p>Powoduje wystąpienie błędu w przypadku gdy wartośc argumentu <code>v</code> jest false (<strong>nil</strong> lub <strong>false</strong>; w przeciwnym przypadku zwraca swoje argumenty. <code>message</code> jest komunikatem błędu; gdy nie występuje to domyślnie jest to komunikat "assertion failed!".</p>
+
+<h3>collectgarbage ([opt [, arg]])</h3>
+
+
+<h3>dofile ([filename])</h3>
+
+<h3>error (message [, level])</h3>
+
+<h3>_G</h3>
+
+<h3>getfenv ([f])</h3>
+
+<h3>getmetatable (object)</h3>
+
+<h3>ipairs (t)</h3>
+
+<h3>load (func [, chunkname])</h3>
+
+<h3>loadfile ([filename])</h3>
+
+<h3>loadstring (string [, chunkname])</h3>
+
+<h3>next (table [, index])</h3>
+
+<h3>pairs (t)</h3>
+
+
+<h3>pcall (f, arg1, ···)</h3>
+
+<h3>print (···)</h3>
+
+<h3>rawequal (v1, v2)</h3>
+
+<h3>rawget (table, index)</h3>
+
+<h3>rawset (table, index, value)</h3>
+
+<h3>select (index, ···)</h3>
+
+<h3>setfenv (f, table)</h3>
+
+<h3>setmetatable (table, metatable)</h3>
+
+<h3>tonumber (e [, base])</h3>
+
+<h3>tostring (e)</h3>
+
+<h3>type (v)</h3>
+
+<h3>unpack (list [, i [, j]])</h3>
+
+<h3>_VERSION</h3>
+
+<h3>xpcall (f, err)</h3>
 
 <h2 id="5.2">5.2. Operacje na funkcjach współbieżnych</h2>
 
