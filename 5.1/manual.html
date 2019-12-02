@@ -1255,16 +1255,31 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 </p>
 <h2 id="5.1">5.1. Funkcje podstawowe</h2>
 <p>Podstawowa biblioteka wprowadza elementarne funkcje w Lua. Jeżeli nie zostanie ona dołączona do aplikacji, należy ostrożnie sprawdzić czy nie będzie konieczne wprowadznie własnej implementacji dla tych rozwiązań.</p>
-<h3>assert (v [, message])</h3>
+<h3 id="pdf-assert">assert (v [, message])</h3>
 
 <p>Powoduje wystąpienie błędu w przypadku gdy wartośc argumentu <code>v</code> jest false (<strong>nil</strong> lub <strong>false</strong>; w przeciwnym przypadku zwraca swoje argumenty. <code>message</code> jest komunikatem błędu; gdy nie występuje to domyślnie jest to komunikat "assertion failed!".</p>
 
-<h3>collectgarbage ([opt [, arg]])</h3>
+<h3 id="pdf-collectgarbage">collectgarbage ([opt [, arg]])</h3>
 
+<p>Ta funkcja do ogólny interfejs garbage collectora. Wykonuje różne działania w zależności od jej pierwszego argumentu, <code>opt</code>:</code></p>
 
-<h3>dofile ([filename])</h3>
+<ul>
+  <li><strong>"collect"</strong>s: wykonuje pełny cykl garbage-collectora. Jest to działania domyślne.</li>
+  <li><strong>"stop"</strong>: zatrzymuje garbage collectora.</li>
+  <li><strong>"restart"</strong>: uruchamia ponownie garbage collector.</li>
+  <li><strong>"count"</strong>: zwraca całkowitą ilość pamięci zajmowaną przez Lua (w kilobajtach).</li>
+  <li><strong>"step"</strong>: wykokuje krok zbierania przez garbage collectora. "Rozmiar" kroku jest ustalany przez argument <code>arg</code> (większe wartości oznaczają więcej kroków). Wartość <code>arg</code> należy dobrać eksperymentalnie. Zwraca <strong>true</strong> gdy krok zakończy cykl zbierania.</li>
+  <li><strong>"setpause"</strong>: ustawia nową wartość <code>arg</code> jako <em>pauzy</em> dla garbage collectora (więcej w <a href="#2.10">2.10</a>). Zwraca poprzednią wartość <em>pauzy</em>.</li>
+  <li><strong>"setstepmul"</strong>: ustawiwa wartość <code>arg</code> dla <em>mnożnika kroku</em> garbage collectora (więcej w <a href="#2.10">2.10</a>). Zwraca poprzednią wartośc dla <em>kroku</em>.</li>
+</ul>
 
-<h3>error (message [, level])</h3>
+<h3 id="pdf-dofile">dofile ([filename])</h3>
+
+<p>Otwiera plik o podanej nazwie i uruchamia jego zawartośc jako fragment Lua. Gdy jest wywoływana bez argumentów, funkcja <code>dofile</code> uruchamia zawartość wejścia standardowego (<code>stdin</code>). Zwraca wszystkie wartości przekazane przez fragment kodu. W przypadku błędów, <code>dofile</code> przekazuje błąd do funkcji bezpośrednio wywołującej (oznacza to że <code>dofile</code> nie działa w trybie chronionym).</p>
+
+<h3 id="pdf-error">error (message [, level])</h3>
+
+<p></p>
 
 <h3>_G</h3>
 
