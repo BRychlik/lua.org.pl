@@ -1279,13 +1279,20 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 
 <h3 id="pdf-error">error (message [, level])</h3>
 
+<p>Przerywa działanie ostatnio wywołanej funkcji chronionej i zwraca <code>message</code> jako komunikat błędu. Funkcja <code>error</code> nigdy nie zwraca.</p>
+<p>Zwykle funkcja <code>error</code> zwraca dodatkowe informacje o miejscu wystąpienia błędu na początku komunikatu. Argument <code>level</code> ustala poziom pozycji błędu. Poziom 1 (domyślny), miejsce błędu jest tam gdzie funkcja <code>error</code> została wywołana. Poziom 2 wskazuje błąd na funkcję, w której wywołano <code>error</code>. Poziom 0 nie dodaje informacji o miejscu wystąpienia błędu do komunikatu.</p>
+
+<h3 id="pdf-_G">_G</h3>
+
+<p>Zmienna globalna (nie funkcja) przechowująca środowisko globalne (czyli <code>_G._G = _G</code>). Lua nie wykorzystuje tej zmiennej; zmiana jej wartości nie ma wpływu na środowisko, oraz zmiany wprowadzone do środowika nie mają wpływu na tą zmienną. (Należy użyć <a href="#pdf-setenv">setenv</a> aby zmienić środowisko.)</p>
+
+<h3 id="pdf-getfenv">getfenv ([f])</h3>
+
+<p>Zwraca aktualne środowisko używane przez funkcję. <code>f</code> może być funkcją Lua lub liczbą określającą funkcję na stosie: Poziom 1 to funkcja wywołująca <code>getfenv</code>. Jeżeli podana funkcja nie jest funkcją Lua, lub gdy <code>f</code> jest równe 0, <code>getfenv</code> zwraca globalne środowisko. Wartością domyślną dla <code>f</code> jest 1.</p>
+
+<h3 id="pdf-getmetatable">getmetatable (object)</h3>
+
 <p></p>
-
-<h3>_G</h3>
-
-<h3>getfenv ([f])</h3>
-
-<h3>getmetatable (object)</h3>
 
 <h3>ipairs (t)</h3>
 
@@ -1298,7 +1305,6 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 <h3>next (table [, index])</h3>
 
 <h3>pairs (t)</h3>
-
 
 <h3>pcall (f, arg1, ···)</h3>
 
