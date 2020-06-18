@@ -18,6 +18,10 @@
   url: http://nmap.org
   desc: Zaawansowany skaner sieciowy.
 
+- name: NodeMCU
+  url: https://www.nodemcu.com
+  desc: Framework oparty o Lua, umożliwiający programowanie urządzeń IoT na bazie układów ESP8266 i podobnych.
+
 - name: Polycode
   url: http://polycode.org
   desc: Framework 3D umożliwiający tworzenie wizualizacji oraz gier. Możliwość pisania w C++ oraz w Lua.
