@@ -1294,45 +1294,91 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 
 <p></p>
 
-<h3>ipairs (t)</h3>
+<h3 id="pdf-ipairs">ipairs (t)</h3>
 
-<h3>load (func [, chunkname])</h3>
+<p>Zwraca trzy wartości: iterator funkcji, tabele <code>t</code>, i 0, tak więc konstrukcja:</p>
 
-<h3>loadfile ([filename])</h3>
+<pre>
+  for i,v in ipairs(t) do <em>body</em> end
+</pre>
 
-<h3>loadstring (string [, chunkname])</h3>
+<p>spowoduje iterację par (<code>1, t[1]</code>), <co,de>(2, t[2])</code>, <code>...</code>, aż do pierwszej liczby całkowitej nieobecnej w tabeli.</p>
 
-<h3>next (table [, index])</h3>
+<h3 id="pdf-load">load (func [, chunkname])</h3>
 
-<h3>pairs (t)</h3>
+<p>Ładuje fragment kodu używając <code>func</code> pobierając części. Każde wywołanie <code>func</code> musi zwrócić ciąg znaków łączący się z poprzednim wynikiem. Zwrócenie pustego ciągu, <strong>nil</strong>, lub braku wartości powoduje zakończenie ładowanie fragmentu.</p>
+<p>Jeżeli nie wystąpiły żadne błędy, zwraca połączony fragment jako funkcję; w przeciwnym wypadku zwraca <strong>nil</strong> wraz z komunikatem o błędzie. Zwracanym środowiskiem jest środowisko globalne.</p>
+<p>
+<code>chunkname</code> jest wykorzystywany jako nazwa fragmentu w komunikacie o błędzie i informacjach do debugowania. Gdy nie jest podany to domyślną wartością jest "<code>=(load)</code>".
+</p>
 
-<h3>pcall (f, arg1, ···)</h3>
+<h3 id="pdf-loadfile">loadfile ([filename])</h3>
 
-<h3>print (···)</h3>
+<p>Podobnie do <a href="#pdf-load"><code>load</code></a> pobiera fragment z pliku <code>filename</code> lub ze standardowego wejścia jeżeli nie podano nazwy pliku.
+</p>
 
-<h3>rawequal (v1, v2)</h3>
+<h3 id="pdf-loadstring">loadstring (string [, chunkname])</h3>
 
-<h3>rawget (table, index)</h3>
+<p>Podobnie do <a href="#pdf-load"><code>load</code></a>, ale fragment pobierany jest z podanego ciągu znaków.</p>
 
-<h3>rawset (table, index, value)</h3>
+<p>Aby pobrać i uruchomić podany ciąg znaków, należy użyć wyrażenia</p>
 
-<h3>select (index, ···)</h3>
+<pre>
+    assert(loadstring(s))()
+</pre>
 
-<h3>setfenv (f, table)</h3>
+<p>Gdy brakuje <code>chunkname</code> to domyślnie odpowiada on podanemu ciągowi znaków.</p>
+ 
+<h3 id="pdf-next">next (table [, index])</h3>
 
-<h3>setmetatable (table, metatable)</h3>
+<p>Funkcja pozwala przeglądać wszystkie pola w tabeli. Pierwszy argument to tabela, drugi to indeks w tej tabeli. <code>next</code> zwraca następny indeks w tabeli i powiązaną z nim wartość. Gdy jest wywołana z <strong>nil</strong> jako drugim argumentem, <code>next</code> zwraca indeks początkowy i powiązaną z nim wartość. Gdy jest wywoływana z ostatnim indeksem, lub z <strog>nil</strong> w pustej tabeli, <code>next</code> zwraca <strong>nil</strong>. W szczególności można używać <code>next(t)</code> do sprawdzenia czy tabela jest pusta.</p>
 
-<h3>tonumber (e [, base])</h3>
+<p>Kolejność w jakiej zwracane są elementy tabeli nie jest ustalona, <em>nawet dla numerowanych elementów</em>. (Aby przejść przez elementy tabeli w kolejności, należy skorzystać z <strong>for</strong> lub z funkcji <a href="#pdf-ipairs"><code>ipairs</code></a>.)</p>
 
-<h3>tostring (e)</h3>
+<p>Zachowanie funkcji <code>next</code> <em>nie jest zdefiniowane</em> gdy podczas przeglądania, zostanie przypisana jakakolwiek wartośc do nie</p>
 
-<h3>type (v)</h3>
+<h3 id="pdf-pairs">pairs (t)</h3>
 
-<h3>unpack (list [, i [, j]])</h3>
+<h3 id="pdf-pcall">pcall (f, arg1, ···)</h3>
 
-<h3>_VERSION</h3>
+<h3 id="pdf-print">print (···)</h3>
 
-<h3>xpcall (f, err)</h3>
+<h3 id="pdf-rawequal">rawequal (v1, v2)</h3>
+
+<h3 id="pdf-rawget">rawget (table, index)</h3>
+
+<h3 id="pdf-rawset">rawset (table, index, value)</h3>
+
+<h3 id="pdf-select">select (index, ···)</h3>
+
+<h3 id="pdf-setfenv">setfenv (f, table)</h3>
+
+<h3 id="pdf-setmetatable">setmetatable (table, metatable)</h3>
+
+<h3 id="pdf-tonumber">tonumber (e [, base])</h3>
+
+<h3 id="pdf-tostring">tostring (e)</h3>
+
+<p></p>
+
+<h3 id="pdf-type">type (v)</h3>
+
+<p></p>
+
+<h3 id="pdf-unpack">unpack (list [, i [, j]])</h3>
+
+<p></p>
+
+<h3 id="pdf-_VERSION">_VERSION</h3>
+
+<p>Zmienna globalna (nie funkcja) zawierająca ciąg znaków określający wykorzystywaną wersję interpretera. Aktualną zawartością tej zmiennej jest <code>"Lua 5.1</code></p>
+
+<h3 id="pdf-xpcall">xpcall (f, err)</h3>
+
+<p>Ta funkcja jest podobna do <a href="#pdf-pcall"><code>pcall</code></a>, z wyjątkiem tego że możliwe jest ustawienie funkcji obsługi błędów.</p>
+
+<p><code>xpcall</code> wywołuje funkcję <code>f</code>, wykorzystując <code>err</code> jako funkcję obsługującą błędy. Jakikolwiek błąd pojawiający się w funkcji <code>f</code> nie jest przekazywany w górę; zamiast tego <code>cpcall</code> przechwytuje błąd, wywołuje funkcję <code>err</code> z oryginalnym obiektem błędu, oraz zwraca kod statusu. Pierwszym wynikiem jest kod statusu (wartość boolowska), <strong>true</strong> gdy funkcja zakończy się bez błędów. Również w tym przypadku zawraca wszystkie wyniki wywołania, po pierwszym wyniku. W przypadku błędu, <code>xpcall</code> zwraca <strong>false</strong>, oraz wynik funkcji <code>err</code>.
+</p>
 
 <h2 id="5.2">5.2. Operacje na funkcjach współbieżnych</h2>
 
