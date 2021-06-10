@@ -1339,36 +1339,102 @@ Standardowa biblioteka Lua dostarcza użyteczne funkcje, które są zaimplemento
 
 <h3 id="pdf-pairs">pairs (t)</h3>
 
+<p>
+Zwraca trzy wartości: funkcję <a href="#pdf-next"><code>next</code></a>, tabelę <code>t</code>i i <strong>nil</strong>, więc poniższy kod
+</p>
+<pre>
+  for k,v in pairs(t) do body end
+</pre>
+<p>będzie iterował po wszystkich parach klucz-wartość tabeli <code>t</code>.</p>
+<p>Zobacz szczegóły funkcji <a href="#pdf-next"><code>next</code></a>, gdy jest ona modyfikowana podczas przechodzenia po jej elementach.</p>
+
 <h3 id="pdf-pcall">pcall (f, arg1, ···)</h3>
+
+<p>
+Wywołuję funkcję <code>f</code> z podanymi argumentami w trybie <em>chronionym</em>. Oznacza to, że jakikolwiek błąd który wystąpi wewnątrz funkcji <code>f</code>, nie zostanie zgłoszony wyżej; zamiast tego, <code>pcall</code> przechwyci błąd i zwróci kod statusu. Pierwszym wynikiem jest kod statusu (wartość boolean), gdy jest true oznacza to zakończenie wywołania bez błędów. W przypadku błędu, <code>pcall</code> zwraca <strong>false</strong> z informacją o błędzie.
+</p>
 
 <h3 id="pdf-print">print (···)</h3>
 
+<p>Przyjmuje dowolną ilość argumentów i przekazuje ich wartości do <code>stdout</code>, używając funkcji <a href="#pdf-tostring"><code>tostring</code></a> do konwersji na ciągi znaków. Funkcja <code>print</code> nie jest stosowana do sformatowanego tekstu wyjściowego, ale tylko jako szybki sposób na pokazanie wartości, głownie podczas debugowania. Do sformatowanego tekstu należy używać <a href="#pdf-string.format"><code>string.format</code></a>.</p>
+
 <h3 id="pdf-rawequal">rawequal (v1, v2)</h3>
+
+<p>
+Sprawdza czy <code>v1</code> jest równe <code>v2</code>, bez wywoływania metametod. <code>table</code> musi być tabelą; <code>index</code> może być dowolną wartością.
+</p>
 
 <h3 id="pdf-rawget">rawget (table, index)</h3>
 
+<p>
+Pobiera rzeczwistą wartość <code>table[index]</code>, bez wywoływania metametod. <code>table</code> musi być tabelą; <code>index</code> może być dowolną wartością.
+</p>
+
 <h3 id="pdf-rawset">rawset (table, index, value)</h3>
+
+<p>
+Ustawia rzeczywistą wartość dla <code>table[index]</code> jako <code>value</code>, bez wywoływania metametod. <code>table</code> musi być tabelą, <code>index</code> musi być wartością różną od <strong>nil</strong> i <code>value</code> musi być dowolną wartością Lua.
+</p>
 
 <h3 id="pdf-select">select (index, ···)</h3>
 
+<p>
+Jeżeli <code>index</code> jest liczbą, to zwraca podane argumenty od argumentu określonego przez <code>index</code>. Natomiast, jeżeli <code>index</code> będzie stringiem "#" to <code>select</code> zwraca wszystkie podane argumenty.
+</p>
+
 <h3 id="pdf-setfenv">setfenv (f, table)</h3>
+
+<p>
+Ustawia środowisko które ma być użyte przez podaną funkcję. <code>f</code> może być funkcją Lua, lub liczbą określającą poziom funkcji na stosie: Poziom 1 jest funkcją wywołującą <code>setfenv</code>. Funkcja <code>setfenv</code> zwraca podaną funkcję.
+</p>
+<p>
+W szczególnym przypadku, gdy <code>f</code> jest 0 funkcja <code>setfenv</code> zmienia środowisko wątku w którym jest uruchomiona. W takim przypadku, <code>setfenv</code> nie zwraca żadnej wartości.
+</p>
 
 <h3 id="pdf-setmetatable">setmetatable (table, metatable)</h3>
 
+<p>
+Ustawia metatabelę dla podanej tabeli (nie można zmienić metatabeli dla innych typów z poziomu Lua, tylko z poziomu języka C). Jeżeli <code>metatable</code> jest <strong>nil</strong>, usuwa metatabelę dla podanej tabeli. Jeżeli oryginalna metatabela posiada pole "<code>__metatable</code>", to wystąpi błąd.
+</p>
+<p>
+Funkcja zwraca <code>table</code>.
+</p>
+
 <h3 id="pdf-tonumber">tonumber (e [, base])</h3>
+
+<p>
+Funkcja próbuje przekonwertować podany argument na wartość liczbową. Jeżeli argument jest wartością liczbową, lub stringiem który można przekonwertować na liczbę, to <code>tonumber</code> zwraca tą wartość liczbową; w przeciwnym wypadku zwraca <strong>nil</strong>.
+</p>
+<p>
+Opcjonalny argument określa podstawę do interpretacji wartości liczbowej. Podstawa może być liczbą całkowitą z zakresu od 2 do 36 włącznie. W podstawach powyżej 10, znak "<code>A</code>" (z wielkiej litery lub małej) odpowiada wartości 10, "<code>B</code>" odpowiada 11 i tak dalej, gdzie "<code>Z</code>" oznacza 35. W podstawie 10 (domyślnie), liczba może mieć część dziesiętną, oraz opcjonalną część wykładniczą (więcej <a href="#2.1">2.1</a>). W innych podstawach można stosować jedynie liczby całkowite bez znaku.
+</p>
 
 <h3 id="pdf-tostring">tostring (e)</h3>
 
-<p></p>
+<p>
+Przyjmuje argument dowolnego typu i zamienia go na ciąg znaków w sensownym formacie. Kompletną kontrolę nad tym jak są konwertowanie liczby daje funkcja <a href="#pdf-string.format">string.format</a>.
+</p>
 
+<p>
+Jeżeli metatabela argumentu <code>e</code> posiada pole "<code>__tostring</code>", to <code>tostring</code> wywołuje odpowiadającą zawartość tego pola z argumentem <code>e</code> i wykorzystuje zwróconą wartość jako wynik działania funkcji.
+</p>
 <h3 id="pdf-type">type (v)</h3>
 
-<p></p>
+<p>
+Zwraca typ podanego argumentu, jako ciąg znaków. Możliwymi wynikami tej funkcji są "<code>nil</code>" (jako ciąg znaków, nie jako wartość <strong>nil</strong>), "<code>number</code>", "<code>string</code>", "<code>boolean</code>", "<code>table</code>", "<code>function</code>", "<code>thread</code>" i "<code>userdata</code>".
+</p>
 
 <h3 id="pdf-unpack">unpack (list [, i [, j]])</h3>
 
-<p></p>
-
+<p>
+Zwraca elementy z podanej tabeli. Funkcja jest równoważna do:
+</p>
+<pre>
+  return list[i], list[i+1], ···, list[j]
+</pre>
+<p>
+z wyjątkiem że kod powyżej może być zapisany dla określonej liczby elementów. Domyślnie <code>i</code> jest równe 1 a <code>j</code> jest równe długości listy, jako operator długości (więcej <a href="#2.5.5">2.5.5</a>).
+</p>
 <h3 id="pdf-_VERSION">_VERSION</h3>
 
 <p>Zmienna globalna (nie funkcja) zawierająca ciąg znaków określający wykorzystywaną wersję interpretera. Aktualną zawartością tej zmiennej jest <code>"Lua 5.1</code></p>
