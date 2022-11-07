@@ -43,7 +43,7 @@ repeat    return    then      true      until     while
 <p>
 Lua jest językiem, w którym wielkość liter ma znaczenie: <code>and</code> jest słowem zarezerwowanym, ale <code>And</code> i <code>AND</code> są dwoma całkowicie właściwymi identyfikatorami. Zgodnie z konwencją, nazwy rozpoczynające się od podkreślenia i składające się ze wielkich liter (takie jak <code>_VERSION</code>) są zarezerwowane jako wewnętrzne zmienne globalne używane przez Lua.
 </p>
-<p>Podane ciągi znaków określają inne oznaczenia:<p>
+<p>Podane ciągi znaków określają inne oznaczenia:</p>
 <pre>
 +     -     *     /     %     ^     #
 ==    ~=    <=    >=    <     >     =
@@ -360,7 +360,7 @@ Funkcje mogą być uruchamiane jako instrukcje, zapewniając możliwość wystę
 <pre>
     stat ::= functioncall
 </pre>
-<p>W takim przypadku, wszystkie zwrócone wartości są odrzucane. Wywyołania funkcji są wyjaśnione w <a href="#2.5.8">2.5.8</a>.
+<p>W takim przypadku, wszystkie zwrócone wartości są odrzucane. Wywołania funkcji są wyjaśnione w <a href="#2.5.8">2.5.8</a>.</p>
 <h3 id="2.4.7">2.4.7. Deklaracje lokalne</h3>
 <p>
 Zmienne lokalne mogą być zadeklarowane w dowolnym miejscu w bloku. Deklaracja może zawierać wstępnie ustawioną wartość:
@@ -473,7 +473,7 @@ Operatorami logicznymi w Lua są <strong>and</strong>, <strong>or</strong> i <st
     false or nil        --> nil
     10 and 20           --> 20
 </pre>
-<p>W tym podręczniku, <code>--&gt;</code> oznacza wynik działania wyrażenia.
+<p>W tym podręczniku, <code>--&gt;</code> oznacza wynik działania wyrażenia.</p>
 <h3 id="2.5.4">2.5.4. Konkatenacja</h3>
 <p>
 Łączenie ciągów znaków w Lua oznaczone jest przez dwie kropki, ('<code>..</code>'). Jeżeli obydwa operandy są ciągami znaków lub numerami, to obydwa są konwertowane na ciągi znaków z zachowaniem zasad opisnych w <a href="#2.2.1">2.2.1</a>. Jeżeli nie jest to możliwe, używana jest metametoda "concat" (więcej <a href="#2.8">2.8</a>).
@@ -1446,11 +1446,14 @@ z wyjątkiem że kod powyżej może być zapisany dla określonej liczby element
 <p><code>xpcall</code> wywołuje funkcję <code>f</code>, wykorzystując <code>err</code> jako funkcję obsługującą błędy. Jakikolwiek błąd pojawiający się w funkcji <code>f</code> nie jest przekazywany w górę; zamiast tego <code>cpcall</code> przechwytuje błąd, wywołuje funkcję <code>err</code> z oryginalnym obiektem błędu, oraz zwraca kod statusu. Pierwszym wynikiem jest kod statusu (wartość boolowska), <strong>true</strong> gdy funkcja zakończy się bez błędów. Również w tym przypadku zawraca wszystkie wyniki wywołania, po pierwszym wyniku. W przypadku błędu, <code>xpcall</code> zwraca <strong>false</strong>, oraz wynik funkcji <code>err</code>.
 </p>
 
-<h2 id="5.2">5.2. Operacje na funkcjach współbieżnych</h2>
+<h2 id="5.2">5.2. Operacje na funkcjach współprogramów</h2>
 
-<p>Operacje związane z współbieżnością zawiera się w bibliotece podstawowej i znajduje się wewnątrz tabeli <code>couroutine</code>. Więcej o współbieżności w <a href="#2.11">2.11</a>.</p>
+<p>Operacje związane ze współprogramami zawierają się w bibliotece podstawowej i znajdują się wewnątrz tabeli <code>couroutine</code>. Więcej o współprogramach w <a href="#2.11">2.11</a>.</p>
 
 <h3 id="pdf-coroutine.create">coroutine.create (f)</h3>
+
+<p></p>
+
 
 <h3 id="pdf-coroutine.resume">coroutine.resume (co [, val1, ···])</h3>
 
@@ -1465,7 +1468,6 @@ z wyjątkiem że kod powyżej może być zapisany dla określonej liczby element
 <h2 id="5.3">5.3. Moduły</h2>
 
 <h2 id="5.4">5.4. Operacje na ciągach znaków</h2>
-
 <p>
 
 </p>
@@ -1476,7 +1478,7 @@ z wyjątkiem że kod powyżej może być zapisany dla określonej liczby element
 
 <h2 id="5.6">5.6. Funkcje matematyczne</h2>
 
-<p>Ta biblioteka to interfejs do biblioteki standardowej C. Wszystkie funkcje dostarczane są z tabeli <code>math</code>.</p>
+<p>Ta biblioteka to interfejs do biblioteki standardowej C. Wszystkie funkcje dostępne są z tabeli <code>math</code>.</p>
 
 <h3 id ="pdf-math.abs">math.abs (x)</h3>
 <p>
