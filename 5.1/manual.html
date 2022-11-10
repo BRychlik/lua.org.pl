@@ -1482,99 +1482,99 @@ z wyjątkiem że kod powyżej może być zapisany dla określonej liczby element
 
 <h3 id ="pdf-math.abs">math.abs (x)</h3>
 <p>
-
+Zwraca wartość bezwzględną z x.
 </p>
 
 <h3 id ="pdf-math.acos">math.acos (x)</h3>
 <p>
-
+Zwraca wartość funkcji arcus cosinus z x (w radianach).
 </p>
 
 <h3 id ="pdf-math.asin">math.asin (x)</h3>
 <p>
-
+Zwraca wartość funkcji arcus sinus z x (w radianch).
 </p>
 
 <h3 id ="pdf-math.atan">math.atan (x)</h3>
 <p>
-
+Zwraca wartość funkcji arcus tangens z x (w radianach).
 </p>
 
 <h3 id ="pdf-math.atan2">math.atan2 (y, x)</h3>
 <p>
-
+Zwraca wartość funkcji arcus tangens z y/x (w radianach), ale używa znaku obydwu parametrów by znaleźć ćwiartkę wyniku. (Radzi sobie z sytuacją gdy x jest równe zero.)
 </p>
 
 <h3 id ="pdf-math.ceil">math.ceil (x)</h3>
 <p>
-
+Zwraca najmniejszą wartość całkowitą większa lub równą x.
 </p>
 
 <h3 id ="pdf-math.cos">math.cos (x)</h3>
 <p>
-
+Zwraca wartość funkcji cosinus z x (w radianach).
 </p>
 
 <h3 id ="pdf-math.cosh">math.cosh (x)</h3>
 <p>
-
+Zwraca wartość funkcji hiperbolicznej cosinus z x. 
 </p>
 
 <h3 id ="pdf-math.deg">math.deg (x)</h3>
 <p>
-
+Zwraca kąt x (w radianach) w stopniach.
 </p>
 
 <h3 id ="pdf-math.exp">math.exp (x)</h3>
 <p>
-
+Zwraca wartość <em>e<sup>x</sup></em>
 </p>
 
 <h3 id ="pdf-math.floor">math.floor (x)</h3>
 <p>
-
+Zwraca największą wartość całkowitą mniejszą lub równą od x.
 </p>
 
 <h3 id ="pdf-math.fmod">math.fmod (x, y)</h3>
 <p>
-
+Zwraca resztę z dzielenia x przez y, która zaokrągla iloraz w kierunku zera. 
 </p>
 
 <h3 id ="pdf-math.frexp">math.frexp (x)</h3>
 <p>
-
+Zwraca m i e takie, że x = m2<sup>e</sup>, gdzie e jest liczbą całkowitą i wartość bezwględną m jest w zakresie [0.5, 1) (lub zero gdy x jest zerem).
 </p>
 
 <h3 id ="pdf-math.huge">math.huge</h3>
 <p>
-
+Wartość HUGE_VAL, wartość większa lub równa dowolnej innej wartości liczbowej.
 </p>
 
 <h3 id ="pdf-math.ldxp">math.ldxp (me, e)</h3>
 <p>
-
+Zwraca m2<sup>e</sup> (e powinno być liczbą całkowitoliczbową).
 </p>
 
 <h3 id ="pdf-math.log">math.log (x)</h3>
 <p>
-
+Zwraca logarytm naturalny z x.
 </p>
 
 <h3 id ="pdf-math.log10">math.log10 (x)</h3>
 <p>
-
+Zwraca logarytm dziesiętny z x.
 </p>
 <h3 id ="pdf-math.max">math.max (x, ···)</h3>
 <p>
-
+Zwraca wartość maksymalną z podanych argumentów.
 </p>
 <h3 id ="pdf-math.min">math.min (x, ···)</h3>
 <p>
-
+Zwraca wartość minimalną z podanych argumentów.
 </p>
 <h3 id ="pdf-math.modf">math.modf (x)</h3>
 <p>
-
+Zwraca dwie liczby, całkowitą część x i ułamkową część x. 
 </p>
 
 <h3 id ="pdf-math.pi">math.pi (x)</h3>
@@ -1584,42 +1584,49 @@ Zwraca wartość liczby <em>Pi</em>
 
 <h3 id ="pdf-math.pow">math.pow (x)</h3>
 <p>
-
+Zwraca x<sup>y</sup>. (Można także skorzystać z wyrażenia x^y aby obliczyć tę wartość.)
 </p>
 
 <h3 id ="pdf-math.rad">math.rad (x)</h3>
 <p>
-
+Zwraca kąt x (podany w stopniach) w radianach. 
 </p>
+
 <h3 id ="pdf-math.random">math.random ([m [, n]])</h3>
 <p>
+  Funkcja ta jest interfejsem do prostej funkcji generatora pseudolosowego rand udostępnianej przez ANSI C. (Nie można dać gwarancji na jej właściwości statystyczne).
 
+  Wywołana bez argumentów, zwraca jednolitą pseudolosową liczbę rzeczywistą z zakresu [0,1]. Po wywołaniu z liczbą całkowitą m, math.random zwraca jednolitą pseudolosową liczbę całkowitą z zakresu [1, m]. Po wywołaniu z dwiema liczbami całkowitymi m i n, math.random zwraca jednolitą pseudolosową liczbę całkowitą z zakresu [m, n]. 
 </p>
+
 <h3 id ="pdf-math.randomseed">math.randomseed (x)</h3>
 <p>
-
+Ustawia x jako "ziarno" (przyp. tłum. wartość startowa) dla generatora pseudolosowego: takie same ziarna dają takie same ciągi liczb.
 </p>
+
 <h3 id ="pdf-math.sin">math.sin (x)</h3>
 <p>
-
+Zwraca wartość funkcji sinus z x.
 </p>
+
 <h3 id ="pdf-math.sinh">math.sinh (x)</h3>
 <p>
-
+Zwraca wrtość funkcji sinusa hiperbolicznego z x.
 </p>
 
 <h3 id ="pdf-math.sqrt">math.sqrt (x)</h3>
 <p>
-
+  Zwraca wartość pierwiastka kwadratowego z x. (Można również użyć wyrażenia x^0.5 aby obliczyć tą wartość.)
 </p>
+
 <h3 id ="pdf-math.tan">math.tan (x)</h3>
 <p>
-
+Zwraca wartość funkcji tangens z x (w radianach).
 </p>
 
 <h3 id ="pdf-math.tanh">math.tanh (x)</h3>
 <p>
-
+Zwraca wartość funkcji hiperbolicznej tangens z x.
 </p>
 
 <h2 id="5.7">5.7. Funkcje Wejścia i Wyjścia</h2>

@@ -1,7 +1,7 @@
 # Site settings
 
 url: "https://lua.org.pl" # the base hostname & protocol for your site
-date: 2022-11-05
+date: 2022-11-10
 
 # Build settings
 markdown: kramdown
